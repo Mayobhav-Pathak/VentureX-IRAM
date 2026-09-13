@@ -3,7 +3,7 @@
 ### AI-Powered Automatic Block Planning for Indian Railways
 **Smart India Hackathon 2026 — Problem Statement SIH26027 · Ministry of Railways**
 
-![Status](https://img.shields.io/badge/status-in--development-yellow)
+![Status](https://img.shields.io/badge/status-developed-greem)
 ![Python](https://img.shields.io/badge/backend-Python%20%2F%20FastAPI-3776AB)
 ![React](https://img.shields.io/badge/frontend-React-61DAFB)
 
@@ -20,7 +20,6 @@
 - [Data Model](#️-data-model-core-entities)
 - [Getting Started](#-getting-started)
 - [Screenshots](#-screenshots)
-- [Roadmap / Known Limitations](#-roadmap--known-limitations)
 - [Acknowledgments](#-acknowledgments)
 
 ---
@@ -134,19 +133,16 @@ npm run dev
 
 Once running, API documentation is available at `http://localhost:8000/docs`, and the dashboard at `http://localhost:5173` (or your configured port).
 
+## 📸 Screenshots
 
-## 🧭 Roadmap / Known Limitations
+<img width="598" height="325" alt="image" src="https://github.com/user-attachments/assets/cf87e2fc-2e80-47f9-a27f-dfbd6ad8644f" />
+<img width="598" height="325" alt="image" src="https://github.com/user-attachments/assets/dfa9ef71-3e18-4b1b-a091-67f331dd279e" />
+<img width="598" height="325" alt="image" src="https://github.com/user-attachments/assets/01daba98-70c5-49de-aef5-b26a8677b4a9" />
+<img width="598" height="325" alt="image" src="https://github.com/user-attachments/assets/68b86121-7ce2-426b-a524-88f3bc64f98c" />
 
-- [ ] Ensure every scheduled block — not only bundled ones — is clickable and opens its prioritization panel
-- [ ] Seed and demo an unresolved multi-department conflict end-to-end (currently 0 pending in the default dataset)
-- [ ] Surface full department names on hover for ENG / SNT / TRD
-- [ ] Document the scale and meaning of the "Backlog index" used in the monthly heatmap
-- [ ] Extend the optimizer's re-solve to run automatically as new defect data arrives (rolling horizon)
+
 
 ## 🙏 Acknowledgments
 
 Built for **Smart India Hackathon 2026**, Problem Statement **SIH26027**, issued by the **Ministry of Railways**, Government of India.
 
-## 📄 License
-
-[MIT](LICENSE) — update to match your team's chosen license.
