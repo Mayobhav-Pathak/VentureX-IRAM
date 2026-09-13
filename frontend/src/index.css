@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+.react-calendar-timeline {
+  border: none !important;
+}
+
+/* Fix the red header bar */
+.react-calendar-timeline .rct-header-root {
+  background: #f8fafc !important; /* light slate background */
+  border-bottom: 1px solid #e2e8f0 !important;
+  color: #334155 !important;
+}
+
+/* Style the date headers */
+.react-calendar-timeline .rct-calendar-header {
+  border: none !important;
+}
+
+.react-calendar-timeline .rct-dateHeader {
+  background: transparent !important;
+  color: #475569 !important;
+  border-left: 1px solid #e2e8f0 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+}
+
+/* Style the sidebar (Section A, Section B) */
+.react-calendar-timeline .rct-sidebar {
+  background: #ffffff !important;
+  border-right: 1px solid #e2e8f0 !important;
+  color: #334155 !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+}
+
+/* Style the grid lines */
+.react-calendar-timeline .rct-vertical-lines .rct-vl {
+  border-left: 1px solid #f1f5f9 !important;
+}
+.react-calendar-timeline .rct-horizontal-lines .rct-hl-even,
+.react-calendar-timeline .rct-horizontal-lines .rct-hl-odd {
+  border-bottom: 1px solid #f1f5f9 !important;
+  background: transparent !important;
+}
+
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+.font-railway {
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.font-railway-condensed {
+  font-family: 'Barlow Semi Condensed', sans-serif;
+}
