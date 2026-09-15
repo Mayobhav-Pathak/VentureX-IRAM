@@ -17,6 +17,7 @@ from database import Base, SessionLocal, engine, ensure_dynamic_rolling_schedule
 from ml_service import FEATURE_COLUMNS, explainer, xgb_model
 from models import BlockModel, ConflictModel, JobModel
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
@@ -29,12 +30,14 @@ app = FastAPI(title="Railway Maintenance Operations Service", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://venture-x-iram.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 def get_db():
     db = SessionLocal()
     try:
