@@ -1,11 +1,18 @@
-# 🚆 Maintenance Possession Controller
+<div align="center">
+  <img src="./assets/logo.svg" alt="Project Logo" />
+  
+  # Maintenance Possession Controller
+  
+  AI-powered block planning for maximizing asset availability on Indian Railways
+  
+<a href="https://venture-x-iram.vercel.app"><img alt="Static Badge" src="https://img.shields.io/badge/Live_Demo-IRAM-%23F37021?style=flat&labelColor=%231061A8">
+</a>
+
+  
+</div>
 
 ### AI-Powered Automatic Block Planning for Indian Railways
 **Smart India Hackathon 2026 — Problem Statement SIH26027 · Ministry of Railways**
-
-![Status](https://img.shields.io/badge/status-developed-greem)
-![Python](https://img.shields.io/badge/backend-Python%20%2F%20FastAPI-3776AB)
-![React](https://img.shields.io/badge/frontend-React-61DAFB)
 
 ---
 
