@@ -122,11 +122,10 @@ The current build is piloted on the **Delhi–Agra Saturated Corridor**, coverin
 
 ## 🚀 Getting Started
 
-> Adjust commands and paths below to match your actual repo layout.
 
 **Backend**
 ```bash
-cd backend
+cd backend/app
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```
