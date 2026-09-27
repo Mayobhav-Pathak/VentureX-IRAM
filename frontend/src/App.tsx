@@ -63,13 +63,6 @@ export interface MaintenanceBlock {
   jobs: BlockJob[];
 }
 
-interface CorridorUptimeMetrics {
-  corridor_uptime_pct: number;
-  total_equivalent_closure_hours: number;
-  tsr_impact_hours: number;
-  horizon_hours: number;
-}
-
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
@@ -84,7 +77,7 @@ export default function App() {
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
   const [pendingConflicts, setPendingConflicts] = useState<ConflictRecord[]>([]);
   const [auditLog, setAuditLog] = useState<ConflictAuditRecord[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
   const [emergencyStats, setEmergencyStats] = useState<{ ms: number; displacedCount: number } | null>(null);
   const [isInjectingEmergency, setIsInjectingEmergency] = useState(false);
 
@@ -99,7 +92,7 @@ export default function App() {
   single_line_retention_pct: 60.0,
   derivation_steps: [],
 });
-  const [isUptimeLoading, setIsUptimeLoading] = useState(false);
+  const [, setIsUptimeLoading] = useState(false);
 
 const [roiMetrics, setRoiMetrics] = useState<DynamicRoiState>({
   formatted_inr: "Calculating...",
