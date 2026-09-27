@@ -21,9 +21,10 @@ import {
   type ConflictAuditRecord,
   type ConflictRecord,
 } from "./components/ConflictAuditPanel";
-import { WeeklyGanttChip } from "./components/GanttChipRiskBadges";
 import { CorridorMetroTrack } from "./components/CorridorMetroTrack";
 import { StrategicMonthlyRollup } from "./components/MonthlyStrategicRollup";
+import RailwaySchedulePanel from "./components/RailwayGanttPanel";
+import { KpiDerivationModal, type KpiMetricType } from "./components/KpiDerivationModal";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
 
@@ -62,12 +63,20 @@ export interface MaintenanceBlock {
   jobs: BlockJob[];
 }
 
+interface CorridorUptimeMetrics {
+  corridor_uptime_pct: number;
+  total_equivalent_closure_hours: number;
+  tsr_impact_hours: number;
+  horizon_hours: number;
+}
+
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [authEmail, setAuthEmail] = useState("");
   const [authPassword, setAuthPassword] = useState("");
   const [authError, setAuthError] = useState<string | null>(null);
+  const [activeKpiModal, setActiveKpiModal] = useState<KpiMetricType | null>(null);
 
   const [horizon, setHorizon] = useState<"weekly" | "monthly">("weekly");
   const [blocks, setBlocks] = useState<MaintenanceBlock[]>([]);
@@ -76,7 +85,58 @@ export default function App() {
   const [pendingConflicts, setPendingConflicts] = useState<ConflictRecord[]>([]);
   const [auditLog, setAuditLog] = useState<ConflictAuditRecord[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [emergencyStats, setEmergencyStats] = useState<{ ms: number; displacedCount: number } | null>(null);
+  const [isInjectingEmergency, setIsInjectingEmergency] = useState(false);
 
+  // Live Corridor Uptime State (Initialized with backend baseline defaults)
+  const [uptimeMetrics, setUptimeMetrics] = useState<DynamicUptimeState>({
+  corridor_uptime_pct: 0,
+  total_equivalent_closure_hours: 0,
+  tsr_impact_hours: 0,
+  total_capacity_hours: 0,
+  horizon_hours: 168,
+  active_blocks_count: 0,
+  single_line_retention_pct: 60.0,
+  derivation_steps: [],
+});
+  const [isUptimeLoading, setIsUptimeLoading] = useState(false);
+
+const [roiMetrics, setRoiMetrics] = useState<DynamicRoiState>({
+  formatted_inr: "Calculating...",
+  base_demurrage_saved_inr: 0,
+  crew_idle_savings_inr: 0,
+  total_financial_savings_inr: 0,
+  derivation_formula: "",
+  official_citation: "",
+});
+
+const fetchUptimeMetrics = async (currentHorizon: "weekly" | "monthly") => {
+  const days = currentHorizon === "weekly" ? 7 : 30;
+  setIsUptimeLoading(true);
+  try {
+    const res = await fetch(`${API_BASE}/api/corridor/uptime?horizon_days=${days}`);
+    if (res.ok) {
+      const data = await res.json();
+      setUptimeMetrics(data);
+    }
+  } catch (err) {
+    console.error("Uptime fetch error:", err);
+  } finally {
+    setIsUptimeLoading(false);
+  }
+};
+
+const fetchFinancialRoi = async () => {
+  try {
+    const res = await fetch(`${API_BASE}/metrics/financial-roi`);
+    if (res.ok) {
+      const data = await res.json();
+      setRoiMetrics(data);
+    }
+  } catch (err) {
+    console.error("ROI fetch error:", err);
+  }
+};
   // Supabase Auth listener
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -106,6 +166,9 @@ export default function App() {
   const handleSignOut = async () => {
     await supabase.auth.signOut();
   };
+
+  // Fetch Live Corridor Uptime from FastAPI Engine
+  
 
   // Fetch Schedule & Jobs
   const fetchScheduleAndJobs = async (currentHorizon: "weekly" | "monthly") => {
@@ -219,9 +282,51 @@ export default function App() {
     }
   };
 
+const [showEmergencyModal, setShowEmergencyModal] = useState(false);
+const [emergencyForm, setEmergencyForm] = useState({
+  section_id: "PWL-KSV",
+  km_marker: 84.2,
+  line: "BOTH" as "UP" | "DOWN" | "BOTH",
+  duration_mins: 90,
+  requires_traction_isolation: true,
+  isolation_buffer_mins: 20,
+});
+
+const handleInjectEmergencyJob = async (e?: React.FormEvent) => {
+  if (e) e.preventDefault();
+  setIsInjectingEmergency(true);
+  try {
+    const res = await fetch(`${API_BASE}/demo/inject-emergency-job`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(emergencyForm),
+    });
+    if (!res.ok) throw new Error("Emergency injection endpoint failed");
+
+    const data = await res.json();
+    setEmergencyStats({
+      ms: Number(data.execution_time_ms) || 0,
+      displacedCount: Array.isArray(data.displaced_jobs) ? data.displaced_jobs.length : 0,
+    });
+    setShowEmergencyModal(false);
+
+    // Refresh all views
+    await Promise.all([
+      fetchScheduleAndJobs(horizon),
+      fetchConflicts(),
+      fetchUptimeMetrics(horizon),
+    ]);
+  } catch (err) {
+    console.error("Emergency fracture simulation error:", err);
+  } finally {
+    setIsInjectingEmergency(false);
+  }
+};
+
   useEffect(() => {
     fetchScheduleAndJobs(horizon);
     fetchConflicts();
+    fetchUptimeMetrics(horizon);
   }, [horizon]);
 
   // Dynamic Day Headers: 7 days for weekly, 30 days for monthly
@@ -239,18 +344,56 @@ export default function App() {
     return dates;
   }, [horizon]);
 
-  const totalPossessionHours = useMemo(() => {
-    const totalMinutes = blocks.reduce((acc, b) => {
-      const diff = new Date(b.end_time).getTime() - new Date(b.start_time).getTime();
-      return acc + Math.max(diff / (60 * 1000), 0);
-    }, 0);
-    return (totalMinutes / 60).toFixed(1);
-  }, [blocks]);
+const refreshAllData = async () => {
+  await Promise.all([
+    fetchScheduleAndJobs(horizon),
+    fetchConflicts(),
+    fetchUptimeMetrics(horizon),
+    fetchFinancialRoi(),
+  ]);
+};
+
+useEffect(() => {
+  refreshAllData();
+}, [horizon]);
+
+
+interface DynamicUptimeState {
+  corridor_uptime_pct: number;
+  total_equivalent_closure_hours: number;
+  tsr_impact_hours: number;
+  total_capacity_hours: number;
+  horizon_hours: number;
+  active_blocks_count: number;
+  single_line_retention_pct: number;
+  derivation_steps: string[];
+}
+
+interface DynamicRoiState {
+  formatted_inr: string;
+  base_demurrage_saved_inr: number;
+  crew_idle_savings_inr: number;
+  total_financial_savings_inr: number;
+  derivation_formula: string;
+  official_citation: string;
+}
+
+useEffect(() => {
+  fetch(`${API_BASE}/metrics/financial-roi`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data?.formatted_inr) fetchFinancialRoi();
+    })
+    .catch((err) => console.warn("ROI fetch fallback:", err));
+}, []);
 
   const selectedBlock = useMemo(
     () => blocks.find((b) => b.id === selectedBlockId) ?? null,
     [blocks, selectedBlockId]
   );
+
+
+
 
   // Authentication Loading State
   if (authLoading) {
@@ -384,18 +527,41 @@ export default function App() {
   // Authenticated IRCTC Application Dashboard
   return (
     <div className="min-h-screen bg-[#f3f6fa] text-slate-900 flex flex-col font-sans">
-      {/* Top Advisory Strip */}
-      <div className="bg-[#f37021] text-white px-6 py-1 text-xs font-medium flex items-center justify-between">
-        <div className="flex items-center gap-2 truncate">
-          <span className="bg-white/20 px-1.5 py-0.2 rounded font-bold text-[10px]">LIVE</span>
-          <span>Delhi–Agra Chord & Trunk Sections: 20 possessions queued for today. High freight density logged on TKD-PWL.</span>
-        </div>
-        <div className="hidden lg:flex items-center gap-3 text-[11px] font-mono">
-          <span>13-SEP-2026</span>
-          <span>|</span>
-          <span>SYSTEM READY</span>
-        </div>
-      </div>
+      {/* Top Advisory Strip & Live Emergency Injection Trigger */}
+<div className="bg-[#f37021] text-white px-4 py-1.5 text-xs font-medium flex items-center justify-between shadow-xs">
+  <div className="flex items-center gap-2 truncate">
+    <span className="bg-white/20 px-1.5 py-0.5 rounded font-bold text-[10px] tracking-wide">
+      LIVE ADVISORY
+    </span>
+    <span className="truncate">
+      Delhi–Agra Chord & Trunk Sections: High freight density on TKD-PWL. 20 possessions queued.
+    </span>
+  </div>
+
+  <div className="flex items-center gap-3 shrink-0">
+    {/* Real-time Sub-Second Solver Metric Badge */}
+    {emergencyStats && (
+      <span className="hidden sm:inline-flex items-center gap-1.5 bg-emerald-950/40 text-emerald-200 border border-emerald-300/40 px-2 py-0.5 rounded text-[11px] font-mono">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        CP-SAT Solved in <b>{emergencyStats.ms.toFixed(1)}ms</b> ({emergencyStats.displacedCount} displaced)
+      </span>
+    )}
+
+    <button
+  type="button"
+  onClick={() => setShowEmergencyModal(true)}
+  title="Open Emergency Rail Fracture Allocation Console"
+  className="cursor-pointer bg-red-700 hover:bg-red-800 text-white font-black text-[11px] px-2.5 py-1 rounded shadow flex items-center gap-1.5 transition active:scale-95 border border-red-400"
+>
+  <AlertTriangle className="h-3.5 w-3.5" />
+  <span>CONFIGURE EMERGENCY FRACTURE</span>
+</button>
+
+    <div className="hidden lg:flex items-center gap-2 text-[11px] font-mono border-l border-white/20 pl-3">
+      <span>SYSTEM READY</span>
+    </div>
+  </div>
+</div>
 
       {/* Main IRCTC Header Bar */}
       <header className="bg-[#0b4f8a] text-white sticky top-0 z-30 shadow-md">
@@ -461,49 +627,120 @@ export default function App() {
       </header>
 
       {/* Main Container */}
-       <main className="mx-auto max-w-[98%] w-full px-4 py-4 space-y-4 flex-1">
-        {/* KPI Strip */}
-        <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-[#0b4f8a]">
-              <Clock className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Possession Hours</p>
-              <p className="text-2xl font-black text-[#0b4f8a]">{totalPossessionHours}h</p>
-            </div>
-          </div>
+      <main className="mx-auto max-w-[98%] w-full px-4 py-4 space-y-4 flex-1">
+        {/* Dynamic Clickable KPI Strip */}
+<section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 select-none">
+  {/* 1. Dynamic Possession Hours */}
+  <div
+    role="button"
+    onClick={() => setActiveKpiModal("possession_hours")}
+    title="Click to view mathematical derivation of possession hours"
+    className="group flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:border-[#0b4f8a] hover:shadow-md cursor-pointer transition"
+  >
+    <div className="flex items-center gap-4">
+      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-[#0b4f8a] group-hover:scale-110 transition">
+        <Clock className="h-6 w-6" />
+      </div>
+      <div>
+        <div className="flex items-center gap-1.5">
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Possession Hours</p>
+          <span className="text-[9px] font-semibold text-blue-600 bg-blue-50 px-1 py-0.2 rounded opacity-0 group-hover:opacity-100 transition">
+            DERIVATION
+          </span>
+        </div>
+        <div className="flex items-baseline gap-1 mt-0.5">
+          <p className="text-2xl font-black text-[#0b4f8a]">
+            {uptimeMetrics.total_equivalent_closure_hours.toFixed(1)}h
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-          <div className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
-              <CheckCircle2 className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Backlog Cleared</p>
-              <p className="text-2xl font-black text-emerald-700">94.2%</p>
-            </div>
-          </div>
+  {/* 2. Monthly Financial Cost Recovery */}
+  <div
+    role="button"
+    onClick={() => setActiveKpiModal("financial_roi")}
+    title="Click to view Ministry of Railways Demurrage and Crew Avoidance formula"
+    className="group flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:border-emerald-600 hover:shadow-md cursor-pointer transition"
+  >
+    <div className="flex items-center gap-4">
+      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 group-hover:scale-110 transition">
+        <CheckCircle2 className="h-6 w-6" />
+      </div>
+      <div>
+        <div className="flex items-center gap-1.5">
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Financial Cost Recovery</p>
+          <span className="text-[9px] font-semibold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded opacity-0 group-hover:opacity-100 transition">
+            AUDIT
+          </span>
+        </div>
+        <p className="text-xl font-black text-emerald-700 mt-0.5">{roiMetrics.formatted_inr}</p>
+        <span className="text-[10px] text-slate-400 font-medium">Demurrage & Crew Avoidance</span>
+      </div>
+    </div>
+  </div>
 
-          <div className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-50 text-[#f37021]">
-              <TrendingUp className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Corridor Uptime</p>
-              <p className="text-2xl font-black text-[#f37021]">98.6%</p>
-            </div>
-          </div>
+  {/* 3. Dynamic Corridor Uptime with Speed Restriction (TSR) Badge */}
+  <div
+    role="button"
+    onClick={() => setActiveKpiModal("corridor_uptime")}
+    title="Click to view uptime calculation with TSR speed restriction impact"
+    className="group flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:border-[#f37021] hover:shadow-md cursor-pointer transition"
+  >
+    <div className="flex items-center gap-4">
+      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-50 text-[#f37021] group-hover:scale-110 transition">
+        <TrendingUp className="h-6 w-6" />
+      </div>
+      <div>
+        <div className="flex items-center gap-1.5">
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Corridor Uptime</p>
+          <span className="text-[9px] font-semibold text-orange-600 bg-orange-50 px-1 py-0.2 rounded opacity-0 group-hover:opacity-100 transition">
+            FORMULA
+          </span>
+        </div>
+        <div className="flex items-baseline gap-2 mt-0.5">
+          <p className="text-2xl font-black text-[#f37021]">
+            {uptimeMetrics.corridor_uptime_pct.toFixed(2)}%
+          </p>
+          {uptimeMetrics.tsr_impact_hours > 0 ? (
+            <span className="text-[10px] bg-amber-100 text-amber-900 font-bold px-1.5 py-0.5 rounded">
+              TSR ACTIVE
+            </span>
+          ) : (
+            <span className="text-[10px] bg-emerald-100 text-emerald-800 font-semibold px-1.5 py-0.5 rounded">
+              OPTIMAL
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
 
-          <div className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-rose-50 text-rose-600">
-              <AlertTriangle className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Pending Conflicts</p>
-              <p className="text-2xl font-black text-rose-600">{pendingConflicts.length}</p>
-            </div>
-          </div>
-        </section>
+  {/* 4. Pending Conflicts */}
+  <div
+    role="button"
+    onClick={() => setActiveKpiModal("pending_conflicts")}
+    title="Click to view G&SR 3.51 boundary lockout audit details"
+    className="group flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:border-rose-600 hover:shadow-md cursor-pointer transition"
+  >
+    <div className="flex items-center gap-4">
+      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-rose-50 text-rose-600 group-hover:scale-110 transition">
+        <AlertTriangle className="h-6 w-6" />
+      </div>
+      <div>
+        <div className="flex items-center gap-1.5">
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Pending Conflicts</p>
+          <span className="text-[9px] font-semibold text-rose-600 bg-rose-50 px-1 py-0.2 rounded opacity-0 group-hover:opacity-100 transition">
+            RULES
+          </span>
+        </div>
+        <p className="text-2xl font-black text-rose-600 mt-0.5">{pendingConflicts.length}</p>
+      </div>
+    </div>
+  </div>
+</section>
+        
 
         {/* Legend Toolbar */}
         <div className="flex items-center justify-between border-b border-slate-200 pb-3">
@@ -516,126 +753,73 @@ export default function App() {
           <DepartmentLegend />
         </div>
 
-         {/* Workspace Layout */}
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
-        {/* Main Matrix Area (9 Cols) */}
-        <div className="xl:col-span-9 rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden flex flex-col md:flex-row min-w-0">
-            {/* 1. Connected Metro Map Corridor Schematic (Pins to left) */}
+        {/* Workspace Layout */}
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
+          {/* Main Matrix Area (9 Cols) */}
+          <div className="xl:col-span-9 rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden flex flex-col md:flex-row min-w-0">
             <CorridorMetroTrack
-              selectedSectionId={selectedBlock?.section_id}
-              onSelectSection={(secId) => {
-                const found = blocks.find((b) => b.section_id === secId);
-                if (found) setSelectedBlockId(found.id);
-              }}
-            />
+             blocks={blocks} 
+            selectedSectionId={selectedBlock?.section_id}
+            onSelectSection={(secId) => {
+            const found = blocks.find((b) => b.section_id === secId);
+            if (found) setSelectedBlockId(found.id);
+            }}
+          />
 
             {/* 2. Coarse vs Tactical Altitude Branch */}
             {horizon === "weekly" ? (
-              /* 7-DAY TACTICAL HOURLY GANTT MATRIX */
-              <div className="flex-1 flex flex-col overflow-x-auto min-w-0">
-                {/* Subheader */}
-                <div className="border-b border-slate-200 bg-[#f8fafc] px-4 py-2.5 flex items-center justify-between">
-                  <span className="text-xs font-extrabold uppercase text-[#0b4f8a] tracking-wider font-railway">
-                    7-Day Tactical Schedule • Fine-Grained Corridor Windows
-                  </span>
-                  <span className="text-[11px] font-mono font-bold text-slate-500">
-                    {activeTimelineDays.length} Operational Days
-                  </span>
-                </div>
-
-                {/* Day Columns Header */}
-                <div className="flex border-b border-slate-200 bg-slate-100 text-[11px] font-bold text-slate-700 font-railway uppercase">
-                  {activeTimelineDays.map((d) => (
-                    <div
-                      key={d.toISOString()}
-                      className="flex-1 p-2 text-center bg-slate-50 border-r border-slate-200 last:border-r-0"
-                    >
-                      <p className="text-[10px] text-slate-500 uppercase">
-                        {d.toLocaleDateString("en-US", { weekday: "short" })}
-                      </p>
-                      <p className="font-bold text-slate-800">
-                        {d.toLocaleDateString("en-US", { day: "2-digit", month: "short" })}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Tactical Day Rows */}
-                {isLoading ? (
-                  <div className="flex h-96 items-center justify-center text-xs text-slate-400 font-medium">
-                    Loading possession blocks from Supabase...
-                  </div>
-                ) : (
-                  <div className="divide-y divide-slate-100 flex-1">
-                    {CORRIDOR_SECTIONS.map((section) => {
-                      const sectionBlocks = blocks.filter((b) => b.section_id === section.id);
-
-                      return (
-                        <div key={section.id} className="flex min-h-20.5 hover:bg-slate-50/50 transition">
-                          {activeTimelineDays.map((day) => {
-                            const dayStart = new Date(day);
-                            dayStart.setHours(0, 0, 0, 0);
-                            const dayEnd = new Date(day);
-                            dayEnd.setHours(23, 59, 59, 999);
-
-                            const slotBlocks = sectionBlocks.filter((b) => {
-                              const bTime = new Date(b.start_time).getTime();
-                              return bTime >= dayStart.getTime() && bTime <= dayEnd.getTime();
-                            });
-
-                            return (
-                              <div
-                                key={day.toISOString()}
-                                className="flex-1 p-1.5 flex flex-col gap-1.5 border-r border-slate-100 last:border-r-0 justify-center min-w-0"
-                              >
-                                {slotBlocks.map((blk) => (
-                                  <WeeklyGanttChip
-                                    key={blk.id}
-                                    blockId={blk.id}
-                                    sectionName={section.name}
-                                    departments={blk.departments}
-                                    startTime={blk.start_time}
-                                    endTime={blk.end_time}
-                                    isBundled={blk.is_bundled}
-                                    className={`w-full ${
-                                      selectedBlockId === blk.id
-                                        ? "ring-2 ring-[#0b4f8a] ring-offset-1"
-                                        : ""
-                                    }`}
-                                    onClick={() => {
-                                      setSelectedBlockId(blk.id);
-                                      setSelectedJobId(blk.jobs[0]?.id ?? null);
-                                    }}
-                                  />
-                                ))}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            ) : (
+  <div className="flex-1 min-w-0">
+    <RailwaySchedulePanel
+      sections={CORRIDOR_SECTIONS}
+      viewStart={activeTimelineDays[0] || new Date()}
+      viewEnd={activeTimelineDays[activeTimelineDays.length - 1] || new Date()}
+      selectedBlockId={selectedBlockId}
+      onSelectBlock={(b) => {
+        setSelectedBlockId(b.id);
+        const originalBlock = blocks.find((blk) => blk.id === b.id);
+        if (originalBlock && originalBlock.jobs.length > 0) {
+          setSelectedJobId(originalBlock.jobs[0].id);
+        }
+      }}
+      blocks={blocks.map((b) => ({
+        id: b.id,
+        section_id: b.section_id,
+        line: (b as any).line || (b.id.includes("UP") ? "UP" : b.id.includes("DOWN") ? "DOWN" : "BOTH"),
+        start_time: b.start_time,
+        end_time: b.end_time,
+        title: b.title,
+        department: b.departments[0] || "ENG",
+        departments: b.departments || ["ENG"], // Passes departments for diagonal stripes
+        is_bundled: b.is_bundled,               // Displays diagonal multi-dept background
+        is_conflict: b.is_conflict,             // Triggers warning pulse + exclamation badge
+        has_isolation_buffer: (b as any).has_isolation_buffer ?? (b.departments.includes("ENG") || b.departments.includes("TRD")),
+        isolation_buffer_mins: 20,
+        post_block_tsr_speed_kmph: (b as any).post_block_tsr_speed_kmph ?? 30,
+        tsr_duration_hours: (b as any).tsr_duration_hours ?? 2.0,
+      }))}
+    />
+  </div>
+) : (
+           
               /* 30-DAY STRATEGIC MACRO ROLLUP VIEW */
               <StrategicMonthlyRollup
-  blocks={blocks}
-  selectedBlockId={selectedBlockId}
-  selectedSectionId={selectedBlock?.section_id || "ALL"}
-  onSelectBlock={(blkId, jobId) => {
-    setSelectedBlockId(blkId);
-    if (jobId) setSelectedJobId(jobId);
-  }}
-  onSelectSection={(secId) => {
-    const found = blocks.find((b) => b.section_id === secId);
-    if (found) setSelectedBlockId(found.id);
-  }}
-/>
+                blocks={blocks}
+                selectedBlockId={selectedBlockId}
+                selectedSectionId={selectedBlock?.section_id || "ALL"}
+                onSelectBlock={(blkId, jobId) => {
+                  setSelectedBlockId(blkId);
+                  if (jobId) setSelectedJobId(jobId);
+                }}
+                onSelectSection={(secId) => {
+                  const found = blocks.find((b) => b.section_id === secId);
+                  if (found) setSelectedBlockId(found.id);
+                }}
+              />
             )}
           </div>
+
           {/* Inspector Panel (3 Cols) */}
-        <div className="xl:col-span-3 min-w-0">
+          <div className="xl:col-span-3 min-w-0">
             <BlockInspector
               selectedBlock={selectedBlock}
               selectedJobId={selectedJobId}
@@ -647,18 +831,192 @@ export default function App() {
         {/* Conflict Audit & Resolution Panel */}
         <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
           <ConflictAuditPanel
-            pendingConflicts={pendingConflicts}
-            auditLog={auditLog}
-            onOpenConflict={(conflictId) => {
-              setSelectedBlockId(conflictId);
-            }}
-            onResetComplete={async () => {
-              await fetchScheduleAndJobs(horizon);
-              await fetchConflicts();
-            }}
-          />
+  pendingConflicts={pendingConflicts}
+  auditLog={auditLog}
+  onOpenConflict={(conflictId) => {
+    setSelectedBlockId(conflictId);
+  }}
+  onResetComplete={async () => {
+    // Instantly refreshes blocks, conflicts, and uptime on the chart
+    await Promise.all([
+      fetchScheduleAndJobs(horizon),
+      fetchConflicts(),
+      fetchUptimeMetrics(horizon),
+    ]);
+  }}
+/>
         </div>
       </main>
+      {/* Interactive Emergency Allocation Modal */}
+{showEmergencyModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-xs">
+    <div className="w-full max-w-lg rounded-xl bg-white shadow-2xl border border-red-200 overflow-hidden">
+      {/* Header */}
+      <div className="bg-linear-to-r from-red-700 to-rose-800 px-5 py-3.5 text-white flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <AlertTriangle className="h-5 w-5 text-amber-300" />
+          <div>
+            <h3 className="text-sm font-bold uppercase tracking-wider">
+              Emergency Track Possession Injection
+            </h3>
+            <p className="text-[11px] text-red-100">
+              Deterministic Google OR-Tools Preemption & Rescheduling Engine
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => setShowEmergencyModal(false)}
+          className="text-white/80 hover:text-white text-lg font-bold p-1 cursor-pointer"
+        >
+          ✕
+        </button>
+      </div>
+
+      {/* Form Body */}
+      <form onSubmit={handleInjectEmergencyJob} className="p-5 space-y-4">
+        {/* Section Target */}
+        <div>
+          <label className="block text-xs font-bold uppercase text-slate-700 mb-1">
+            Target Corridor Section
+          </label>
+          <select
+            value={emergencyForm.section_id}
+            onChange={(e) => {
+              const sec = CORRIDOR_SECTIONS.find((s) => s.id === e.target.value);
+              setEmergencyForm({
+                ...emergencyForm,
+                section_id: e.target.value,
+                km_marker: sec ? (e.target.value === "NDLS-TKD" ? 8.4 : 84.2) : 84.2,
+              });
+            }}
+            className="w-full rounded border border-slate-300 p-2 text-xs font-semibold text-slate-900 focus:border-red-600 focus:outline-none"
+          >
+            {CORRIDOR_SECTIONS.map((sec) => (
+              <option key={sec.id} value={sec.id}>
+                {sec.name} ({sec.id})
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Chainage KM & Track Line Segregation */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs font-bold uppercase text-slate-700 mb-1">
+              Kilometer Chainage
+            </label>
+            <input
+              type="number"
+              step="0.1"
+              value={emergencyForm.km_marker}
+              onChange={(e) =>
+                setEmergencyForm({ ...emergencyForm, km_marker: parseFloat(e.target.value) || 0 })
+              }
+              className="w-full rounded border border-slate-300 p-2 text-xs font-mono font-bold text-slate-900 focus:border-red-600 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold uppercase text-slate-700 mb-1">
+              Line Restriction
+            </label>
+            <select
+              value={emergencyForm.line}
+              onChange={(e) =>
+                setEmergencyForm({ ...emergencyForm, line: e.target.value as "UP" | "DOWN" | "BOTH" })
+              }
+              className="w-full rounded border border-slate-300 p-2 text-xs font-bold text-slate-900 focus:border-red-600 focus:outline-none"
+            >
+              <option value="BOTH">BOTH (Total Line Closure)</option>
+              <option value="UP">UP Line (Single-Line Working on DN)</option>
+              <option value="DOWN">DOWN Line (Single-Line Working on UP)</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Duration & OHE Parameters */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs font-bold uppercase text-slate-700 mb-1">
+              Active Duration (Mins)
+            </label>
+            <input
+              type="number"
+              step="15"
+              min="30"
+              max="240"
+              value={emergencyForm.duration_mins}
+              onChange={(e) =>
+                setEmergencyForm({ ...emergencyForm, duration_mins: parseInt(e.target.value) || 90 })
+              }
+              className="w-full rounded border border-slate-300 p-2 text-xs font-mono font-bold text-slate-900 focus:border-red-600 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold uppercase text-slate-700 mb-1">
+              OHE Power Cut Buffer
+            </label>
+            <div className="flex items-center gap-2 mt-2">
+              <input
+                type="checkbox"
+                id="reqIso"
+                checked={emergencyForm.requires_traction_isolation}
+                onChange={(e) =>
+                  setEmergencyForm({ ...emergencyForm, requires_traction_isolation: e.target.checked })
+                }
+                className="h-4 w-4 rounded text-red-600 cursor-pointer"
+              />
+              <label htmlFor="reqIso" className="text-xs font-semibold text-slate-700 cursor-pointer">
+                20m TRD Earthing Buffer
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={() => setShowEmergencyModal(false)}
+            className="px-3 py-1.5 rounded text-xs font-bold text-slate-600 hover:bg-slate-100 cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={isInjectingEmergency}
+            className="cursor-pointer rounded bg-red-700 hover:bg-red-800 disabled:opacity-50 px-4 py-1.5 text-xs font-black text-white shadow transition flex items-center gap-1.5"
+          >
+            {isInjectingEmergency ? "SOLVING WITH CP-SAT..." : "EXECUTE PREEMPTION & DISPATCH"}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+<KpiDerivationModal
+  metricType={activeKpiModal}
+  onClose={() => setActiveKpiModal(null)}
+  data={{
+    possessionHours: uptimeMetrics.total_equivalent_closure_hours,
+    horizonHours: uptimeMetrics.horizon_hours,
+    totalCapacityHours: uptimeMetrics.total_capacity_hours,
+    uptimePct: uptimeMetrics.corridor_uptime_pct,
+    tsrImpactHours: uptimeMetrics.tsr_impact_hours,
+    singleLineRetentionPct: uptimeMetrics.single_line_retention_pct,
+    uptimeDerivationSteps: uptimeMetrics.derivation_steps,
+    financialTotal: roiMetrics.formatted_inr,
+    financialBaseDemurrage: roiMetrics.base_demurrage_saved_inr,
+    financialCrewSavings: roiMetrics.crew_idle_savings_inr,
+    financialFormula: roiMetrics.derivation_formula,
+    financialCitation: roiMetrics.official_citation,
+    pendingCount: pendingConflicts.length,
+    activeBlocksCount: uptimeMetrics.active_blocks_count,
+  }}
+/>
     </div>
   );
 }
+

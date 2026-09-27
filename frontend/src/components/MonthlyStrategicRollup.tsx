@@ -119,17 +119,6 @@ export const StrategicMonthlyRollup: React.FC<Props> = ({
             </p>
           </div>
         </div>
-
-        <div className="flex items-center gap-6 text-right font-railway">
-          <div>
-            <span className="text-[11px] font-bold text-slate-500 uppercase">Monthly Capacity</span>
-            <p className="text-base font-black text-slate-900">240 Possession Hours</p>
-          </div>
-          <div>
-            <span className="text-[11px] font-bold text-slate-500 uppercase">Backlog Clearance</span>
-            <p className="text-base font-black text-emerald-700">94.2% Complete</p>
-          </div>
-        </div>
       </div>
 
       {/* Section Filter Pill Bar */}

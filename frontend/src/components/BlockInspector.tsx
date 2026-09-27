@@ -165,16 +165,36 @@ export function BlockInspector({
         </div>
       )}
 
-      {activeJob && (
-        <div className="rounded-lg border border-slate-200 p-3 bg-slate-50">
-          <p className="text-xs font-bold text-slate-900">{activeJob.title}</p>
-          <div className="mt-1 flex justify-between text-[11px] text-slate-500">
-            <span>Asset: {activeJob.asset_id}</span>
-            <span>{activeJob.duration_mins} mins</span>
-          </div>
-        </div>
-      )}
-
+      {selectedBlock && (
+  <div className="rounded-lg border border-blue-200 bg-blue-50/70 p-3 mb-3">
+    <div className="flex items-center justify-between text-xs">
+      <span className="font-bold text-[#0b4f8a] uppercase tracking-wider">Scheduled Window</span>
+      <span className="text-[10px] font-semibold bg-blue-200/80 text-blue-900 px-1.5 py-0.2 rounded">
+        INDIAN STANDARD TIME
+      </span>
+    </div>
+    <div className="mt-1 flex items-baseline gap-2">
+      <p className="text-base font-black text-slate-900 font-mono">
+        {new Intl.DateTimeFormat("en-IN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+          timeZone: "Asia/Kolkata"
+        }).format(new Date(selectedBlock.start_time))}
+        {" – "}
+        {new Intl.DateTimeFormat("en-IN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+          timeZone: "Asia/Kolkata"
+        }).format(new Date(selectedBlock.end_time))}
+      </p>
+      <span className="text-xs text-slate-500 font-medium">
+        ({Math.round((new Date(selectedBlock.end_time).getTime() - new Date(selectedBlock.start_time).getTime()) / 60000)} mins)
+      </span>
+    </div>
+  </div>
+)}
       {/* Dynamic Unified Badge */}
       {loading ? (
         <div className="h-16 animate-pulse rounded-lg bg-slate-100" />

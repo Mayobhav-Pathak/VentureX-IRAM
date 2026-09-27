@@ -1,5 +1,5 @@
 // frontend/src/components/CorridorMetroTrack.tsx
-import React from "react";
+import React, { useMemo } from "react";
 
 export interface MetroSection {
   id: string;
@@ -8,101 +8,113 @@ export interface MetroSection {
   toStation: string;
   startKm: number;
   endKm: number;
-  activePossessions: number;
-  hasConflict?: boolean;
 }
 
 export const CORRIDOR_METRO_DATA: MetroSection[] = [
-  { id: "NDLS-TKD", name: "New Delhi - Tuglakabad", fromStation: "NDLS", toStation: "TKD", startKm: 0.0, endKm: 17.5, activePossessions: 4 },
-  { id: "TKD-FDB", name: "Tuglakabad - Faridabad", fromStation: "TKD", toStation: "FDB", startKm: 17.5, endKm: 37.8, activePossessions: 3 },
-  { id: "FDB-PWL", name: "Faridabad - Palwal", fromStation: "FDB", toStation: "PWL", startKm: 37.8, endKm: 60.2, activePossessions: 3 },
-  { id: "PWL-KSV", name: "Palwal - Kosi Kalan", fromStation: "PWL", toStation: "KSV", startKm: 60.2, endKm: 102.5, activePossessions: 2 },
-  { id: "KSV-MTJ", name: "Kosi Kalan - Mathura", fromStation: "KSV", toStation: "MTJ", startKm: 102.5, endKm: 149.8, activePossessions: 3 },
-  { id: "MTJ-AGC", name: "Mathura - Agra Cantt", fromStation: "MTJ", toStation: "AGC", startKm: 149.8, endKm: 199.3, activePossessions: 5, hasConflict: true },
+  { id: "NDLS-TKD", name: "New Delhi - Tuglakabad", fromStation: "NDLS", toStation: "TKD", startKm: 0.0, endKm: 17.5 },
+  { id: "TKD-FDB", name: "Tuglakabad - Faridabad", fromStation: "TKD", toStation: "FDB", startKm: 17.5, endKm: 37.8 },
+  { id: "FDB-PWL", name: "Faridabad - Palwal", fromStation: "FDB", toStation: "PWL", startKm: 37.8, endKm: 60.2 },
+  { id: "PWL-KSV", name: "Palwal - Kosi Kalan", fromStation: "PWL", toStation: "KSV", startKm: 60.2, endKm: 102.5 },
+  { id: "KSV-MTJ", name: "Kosi Kalan - Mathura", fromStation: "KSV", toStation: "MTJ", startKm: 102.5, endKm: 149.8 },
+  { id: "MTJ-AGC", name: "Mathura - Agra Cantt", fromStation: "MTJ", toStation: "AGC", startKm: 149.8, endKm: 199.3 },
 ];
 
 interface Props {
   selectedSectionId?: string;
   onSelectSection?: (id: string) => void;
+  blocks?: Array<{ section_id: string; is_conflict?: boolean }>;
 }
 
-export const CorridorMetroTrack: React.FC<Props> = ({ selectedSectionId, onSelectSection }) => {
+export const CorridorMetroTrack: React.FC<Props> = ({ selectedSectionId, onSelectSection, blocks = [] }) => {
+  // Dynamically count blocks and check conflicts per section
+  const sectionStats = useMemo(() => {
+    const stats: Record<string, { count: number; hasConflict: boolean }> = {};
+    for (const sec of CORRIDOR_METRO_DATA) {
+      stats[sec.id] = { count: 0, hasConflict: false };
+    }
+    for (const b of blocks) {
+      if (stats[b.section_id]) {
+        stats[b.section_id].count += 1;
+        if (b.is_conflict) {
+          stats[b.section_id].hasConflict = true;
+        }
+      }
+    }
+    return stats;
+  }, [blocks]);
+
   return (
-    <div className="w-64 shrink-0 border-r border-slate-200 bg-[#f8fafc] flex flex-col">
-      {/* Sticky Header */}
-      <div className="sticky top-0 z-20 border-b border-slate-200 bg-slate-100/95 px-4 py-3 backdrop-blur-xs flex items-center justify-between">
+    <div className="w-64 shrink-0 border-r border-slate-200 bg-[#f8fafc] flex flex-col select-none">
+      {/* 45px Sticky Header */}
+      <div className="h-11.25 border-b border-slate-200 bg-slate-100/90 px-3 flex items-center justify-between">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 font-railway">
+          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 block leading-tight font-railway">
             CORRIDOR TOPOLOGY
           </span>
-          <h4 className="text-xs font-black text-[#0b4f8a] font-railway-condensed uppercase tracking-wider">
+          <h4 className="text-[11px] font-black text-[#0b4f8a] uppercase tracking-wide leading-tight">
             NDLS ➔ AGC MAIN TRUNK
           </h4>
         </div>
-        <span className="text-[10px] font-mono font-bold bg-[#0b4f8a] text-white px-1.5 py-0.5 rounded">
+        <span className="text-[9px] font-mono font-bold bg-[#0b4f8a] text-white px-1.5 py-0.5 rounded">
           199.3 KM
         </span>
       </div>
 
       {/* Connected Line Stations */}
-      <div className="p-3 flex flex-col justify-between flex-1">
+      <div className="flex flex-col divide-y divide-slate-100">
         {CORRIDOR_METRO_DATA.map((sec, idx) => {
           const isSelected = selectedSectionId === sec.id;
           const isLast = idx === CORRIDOR_METRO_DATA.length - 1;
+          const count = sectionStats[sec.id]?.count ?? 0;
+          const hasConflict = sectionStats[sec.id]?.hasConflict ?? false;
 
           return (
             <div
               key={sec.id}
               onClick={() => onSelectSection?.(sec.id)}
-              className={`group relative flex cursor-pointer items-stretch rounded-lg p-2.5 transition ${
+              className={`group relative flex h-21 cursor-pointer items-center px-3 transition ${
                 isSelected
-                  ? "bg-white shadow-md ring-1 ring-[#0b4f8a]"
-                  : "hover:bg-slate-200/50"
+                  ? "bg-white shadow-sm ring-1 ring-inset ring-[#0b4f8a]"
+                  : "hover:bg-slate-200/40"
               }`}
-              style={{ minHeight: "82px" }}
             >
-              {/* Rail Line Graphic */}
-              <div className="relative flex flex-col items-center mr-3 w-5 shrink-0">
-                {/* Upper Track Connector Line */}
-                <div className={`w-0.75 flex-1 ${idx === 0 ? "opacity-0" : "bg-slate-300 group-hover:bg-[#0b4f8a]/50"}`} />
-
-                {/* Station Node Point */}
+              {/* Metro Rail Line Graphic */}
+              <div className="relative flex flex-col items-center mr-3 w-4 h-full shrink-0">
+                <div className={`w-0.5 flex-1 ${idx === 0 ? "opacity-0" : "bg-slate-300 group-hover:bg-[#0b4f8a]/50"}`} />
                 <div
-                  className={`relative z-10 flex h-4 w-4 items-center justify-center rounded-full border-2 transition ${
-                    sec.hasConflict
-                      ? "border-rose-600 bg-rose-500 animate-pulse ring-4 ring-rose-200"
+                  className={`relative z-10 flex h-3.5 w-3.5 items-center justify-center rounded-full border-2 transition ${
+                    hasConflict
+                      ? "border-rose-600 bg-rose-500 animate-pulse ring-2 ring-rose-200"
                       : isSelected
                       ? "border-[#0b4f8a] bg-[#f37021] ring-2 ring-orange-200"
                       : "border-slate-400 bg-white group-hover:border-[#0b4f8a]"
                   }`}
                 >
-                  <div className="h-1.5 w-1.5 rounded-full bg-white" />
+                  <div className="h-1 w-1 rounded-full bg-white" />
                 </div>
-
-                {/* Lower Track Connector Line */}
-                <div className={`w-0.75 flex-1 ${isLast ? "opacity-0" : "bg-slate-300 group-hover:bg-[#0b4f8a]/50"}`} />
+                <div className={`w-0.5 flex-1 ${isLast ? "opacity-0" : "bg-slate-300 group-hover:bg-[#0b4f8a]/50"}`} />
               </div>
 
-              {/* Station & Section Content */}
+              {/* Station Information */}
               <div className="flex-1 min-w-0 flex flex-col justify-center">
                 <div className="flex items-center justify-between gap-1">
-                  <span className="font-railway text-sm font-bold text-slate-900 truncate leading-tight">
+                  <span className="font-railway text-xs font-bold text-slate-900 truncate leading-tight">
                     {sec.name}
                   </span>
-                  {sec.hasConflict && (
-                    <span className="shrink-0 h-2 w-2 rounded-full bg-rose-600 animate-ping" />
+                  {hasConflict && (
+                    <span className="shrink-0 h-1.5 w-1.5 rounded-full bg-rose-600 animate-ping" />
                   )}
                 </div>
 
-                <div className="flex items-center gap-2 mt-0.5 text-[11px] font-mono text-slate-500">
+                <div className="flex items-center gap-1.5 mt-0.5 text-[10px] font-mono text-slate-500">
                   <span className="font-bold text-[#0b4f8a]">{sec.fromStation}→{sec.toStation}</span>
                   <span>•</span>
                   <span>KM {sec.startKm}–{sec.endKm}</span>
                 </div>
 
-                <div className="mt-1 flex items-center gap-1.5">
-                  <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-slate-200 text-slate-700">
-                    {sec.activePossessions} Blocks Active
+                <div className="mt-1 flex items-center gap-1">
+                  <span className="text-[9px] font-semibold px-1.5 py-0.2 rounded bg-slate-200/80 text-slate-700">
+                    {count} {count === 1 ? "Block" : "Blocks"} Active
                   </span>
                 </div>
               </div>
