@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features & Capabilities Showcase | Indian Railways Caution & Possession System</title>
+  
+  <!-- Fonts: Plus Jakarta Sans for UI + JetBrains Mono for Mathematical Formulae -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            ir: {
+              navy: '#004B87',
+              navyDark: '#0A3B6F',
+              navyDeep: '#06294F',
+              orange: '#EF5324',
+              orangeDark: '#D94314',
+              amber: '#D97706',
+              paper: '#FAF8F5',
+              paperDark: '#F3EFEA',
+              cardBorder: '#E2DCD5',
+              borderSlate: '#CBD5E1',
+              emerald: '#059669',
+              rose: '#DC2626',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FAF8F5;
+      color: #1E293B;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .bg-grid-pattern {
+      background-image: radial-gradient(rgba(11, 60, 93, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .card-hover-lift {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-hover-lift:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px -8px rgba(11, 60, 93, 0.12), 0 4px 8px -2px rgba(11, 60, 93, 0.04);
+      border-color: #004B87;
+    }
+
+    .code-pill {
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -0.02em;
+    }
+
+    /* Modal Backdrop Transitions */
+    .modal-enter {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    .modal-enter-active {
+      opacity: 1;
+      transform: scale(1);
+      transition: all 200ms ease-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#FAF8F5]">
+
+
+  <!-- Primary System Branding Header -->
+  <header class="bg-[#004B87] text-white px-4 sm:px-8 py-3.5 shadow-md border-b-2 border-[#003662]">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12  flex items-center justify-center p-1 text-[#004B87] ">
+          <img src="assets/logo.svg" alt="IR-RAMS Logo" class="w-full h-full object-contain">
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-extrabold tracking-tight leading-tight uppercase">
+              IR - RAMS 
+            </h1>
+            <span class="hidden md:inline-block bg-white/20 text-blue-100 text-[10px] font-bold px-2 py-0.5 rounded">
+              SIH 2026
+            </span>
+          </div>
+          <p class="text-[11px] text-blue-100/90 font-medium tracking-normal">
+            Indian Railway Resource Allocation & Maintenance System
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Showcase Notice Banner -->
+  <div class="bg-[#FAF3EA] border-b border-[#E8DCCB] px-4 py-2 text-center text-xs text-amber-900 font-semibold flex items-center justify-center gap-2">
+    <span class="bg-[#D97706] text-white text-[10px] font-extrabold uppercase px-2 py-0.5 rounded">PROJECT SHOWCASE</span>
+    <span>This project is developed for SIH 2026 </span>
+  </div>
+
+  <section class="relative bg-gradient-to-b from-[#F5EFE6]/70 to-[#FAF8F5] pt-10 pb-12 px-4 sm:px-8 border-b border-[#EADFCF] bg-grid-pattern">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="max-w-3xl mb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100/80 text-[#004B87] font-bold text-xs uppercase tracking-wider mb-3 border border-blue-200">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          <span>ENGINEERING SPECIFICATION & SYSTEM CAPABILITIES</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Algorithmic Conflict Resolution & 199.3 KM Corridor Capacity Manager
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+          Built to solve the acute congestion on the <strong>Delhi – Agra Trunk Section</strong>. Explore the 7 core pillars spanning CP-SAT discrete optimization, G&SR 3.51 spatial lockout rules, ACTM 2.14 OHE isolation buffers, and live formula derivations.
+        </p>
+      </div>
+
+      <!-- Quick Telemetry Glance (Exact prototype numbers) -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3.5 mb-6">
+        <div class="bg-white/90 backdrop-blur p-4 rounded-xl border border-[#E2DCD5] shadow-sm">
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">POSSESSION HOURS</div>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="text-2xl font-black text-[#004B87]">8.7h / 29.0h</span>
+            <span class="text-[10px] text-slate-400 font-mono">Net Closure</span>
+          </div>
+          <p class="text-[11px] text-slate-500 mt-1">7-Day Tactical vs 30-Day Strategic</p>
+        </div>
+
+        <div class="bg-white/90 backdrop-blur p-4 rounded-xl border border-[#E2DCD5] shadow-sm">
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">FINANCIAL RECOVERY</div>
+          <div class="text-2xl font-black text-emerald-600 mt-1">₹8,41,500</div>
+          <p class="text-[11px] text-slate-500 mt-1">Demurrage & Crew Avoidance / mo</p>
+        </div>
+
+        <div class="bg-white/90 backdrop-blur p-4 rounded-xl border border-[#E2DCD5] shadow-sm">
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">CORRIDOR UPTIME</div>
+          <div class="flex items-center gap-2 mt-1">
+            <span class="text-2xl font-black text-slate-800">99.14%</span>
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase font-mono">OPTIMAL</span>
+          </div>
+          <p class="text-[11px] text-slate-500 mt-1">1008 Total Section-Hours</p>
+        </div>
+
+        <div class="bg-white/90 backdrop-blur p-4 rounded-xl border border-[#E2DCD5] shadow-sm">
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">PENDING CONFLICTS</div>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="text-2xl font-black text-rose-600">0 Overlaps</span>
+            <span class="text-[10px] text-slate-400 font-mono">G&SR Locked</span>
+          </div>
+          <p class="text-[11px] text-slate-500 mt-1">Zero Headway / Interlock Clashes</p>
+        </div>
+      </div>
+
+      <!-- Jump filter pills -->
+      <div class="flex flex-wrap items-center gap-2 pt-2 text-xs">
+        <span class="font-bold text-slate-500 uppercase tracking-wider text-[11px] mr-1">Direct Feature Access:</span>
+        <a href="#feature-sso" class="px-3 py-1.5 bg-white border border-[#DDD5C7] rounded-lg font-bold text-slate-700 hover:border-[#004B87] hover:text-[#004B87] transition shadow-2xs">1. SSO & RBAC</a>
+        <a href="#feature-horizons" class="px-3 py-1.5 bg-white border border-[#DDD5C7] rounded-lg font-bold text-slate-700 hover:border-[#004B87] hover:text-[#004B87] transition shadow-2xs">2. Tactical vs Strategic</a>
+        <a href="#feature-departments" class="px-3 py-1.5 bg-white border border-[#DDD5C7] rounded-lg font-bold text-slate-700 hover:border-[#004B87] hover:text-[#004B87] transition shadow-2xs">3. ENG/SNT/TRD Shadowing</a>
+        <a href="#feature-shap" class="px-3 py-1.5 bg-white border border-[#DDD5C7] rounded-lg font-bold text-slate-700 hover:border-[#004B87] hover:text-[#004B87] transition shadow-2xs">4. ML & SHAP Drivers</a>
+        <a href="#feature-emergency" class="px-3 py-1.5 bg-white border border-[#DDD5C7] rounded-lg font-bold text-slate-700 hover:border-[#004B87] hover:text-[#004B87] transition shadow-2xs">5. Emergency Preemption</a>
+        <a href="#feature-derivations" class="px-3 py-1.5 bg-white border border-[#DDD5C7] rounded-lg font-bold text-slate-700 hover:border-[#004B87] hover:text-[#004B87] transition shadow-2xs">6. Formula Derivations</a>
+        <a href="#feature-topology" class="px-3 py-1.5 bg-white border border-[#DDD5C7] rounded-lg font-bold text-slate-700 hover:border-[#004B87] hover:text-[#004B87] transition shadow-2xs">7. 199.3 KM Topology</a>
+      </div>
+
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-8 py-12 space-y-16 flex-1 flex flex-col">
+    <!-- Integrated Demo Video & Resource Card -->
+<div class="mt-6 mb-8 bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm space-y-4">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+    
+    <!-- Left Column: Video Embed (16:9 ratio) -->
+    <div class="lg:col-span-7">
+       <div style="position: relative; width: 100%; height: 0; padding-top: 53.1250%;
+ padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+ border-radius: 8px; will-change: transform;">
+  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+    src="https://www.canva.com/design/DAHWdFnrJ_k/P9nwcRnBRMUeoUeXlnMfAQ/watch?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+  </iframe>
+</div>
+    </div>
+
+    <!-- Right Column: Context, Features & Direct Link -->
+    <div class="lg:col-span-5 flex flex-col justify-between h-full space-y-4">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-[#EF5324]"></span>
+          <span class="text-[11px] font-bold tracking-wider text-slate-500 uppercase">Live Simulation Walkthrough</span>
+        </div>
+        
+        <h3 class="text-lg font-extrabold text-[#003662] tracking-tight">
+          Demo of how the prototype works
+        </h3>
+
+      <!-- Action Button / External Link -->
+      <div class="pt-2 border-t border-slate-100 flex items-center gap-3">
+        <a 
+          href="https://venture-x-iram.vercel.app" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 bg-[#EF5324] hover:bg-[#d6451a] text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm transition-all duration-150 transform active:scale-95"
+        >
+          <span>Open Full Documentation &amp; App</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+    <!-- FEATURE 1: Secure SSO & Controller Portal -->
+    <section id="feature-sso" class="bg-white rounded-2xl border border-[#E2DCD5] p-6 sm:p-8 shadow-sm">
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <div class="lg:w-1/2 space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-blue-100 text-[#004B87] font-black text-xs flex items-center justify-center font-mono">01</span>
+            <span class="text-xs font-black uppercase tracking-wider text-[#EF5324]">AUTHENTICATION & ACCESS CONTROL</span>
+          </div>
+          <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">
+            Role-Based Controller SSO & Restricted Corridor Scoping
+          </h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            The platform enforces high-trust authentication for Indian Railways Section Controllers, Senior Divisional Engineers (Sr. DEN), and Traction Power Controllers (TPC). Session credentials constrain authorization directly to the specified saturated corridor (NDLS – AGC).
+          </p>
+
+          <div class="space-y-2.5 pt-2 text-xs">
+            <div class="flex items-start gap-2.5 p-2.5 rounded-lg bg-[#FAF8F5] border border-[#EAE3D8]">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0"></i>
+              <div>
+                <strong class="text-slate-800">IR-RAMS Secure Gateway:</strong> Restricts maintenance approvals to verified domain accounts (<code>@nr.indianrailways.gov.in</code>).
+              </div>
+            </div>
+            <div class="flex items-start gap-2.5 p-2.5 rounded-lg bg-[#FAF8F5] border border-[#EAE3D8]">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0"></i>
+              <div>
+                <strong class="text-slate-800">Zonal Scoping:</strong> Locks live emergency commands to Northern Railway (NR) and North Central Railway (NCR) boundary interfaces.
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <button onclick="openModal('modalSSODemo')" class="px-4 py-2 bg-[#004B87] hover:bg-[#003B6D] text-white text-xs font-bold rounded-lg shadow-sm flex items-center gap-2 transition">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+              <span><a href = "https://venture-x-iram.vercel.app" target="_blank" class="text-white hover:underline">Launch Prototype SSO Login UI Preview</a></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Prototype UI Preview Card -->
+        <div class="lg:w-1/2 w-full bg-[#FAF8F5] rounded-xl border border-[#DCD5C9] p-5 shadow-inner">
+          <div class="max-w-sm mx-auto bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
+            <div class="bg-[#004B87] text-white p-4 pb-3">
+              <div class="flex items-center gap-1.5 text-amber-300 text-[10px] font-bold uppercase tracking-wider mb-1">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                <span>CONTROLLER SINGLE SIGN-ON</span>
+              </div>
+              <div class="text-base font-extrabold">Section Controller Login</div>
+              <div class="text-[10px] text-blue-100 mt-0.5">Delhi–Agra Saturated Corridor (NDLS - AGC)</div>
+            </div>
+            <div class="p-4 space-y-3 text-xs">
+              <div>
+                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">OFFICIAL EMAIL ID</label>
+                <div class="p-2 border border-slate-300 rounded bg-slate-50 text-slate-700 font-mono text-[11px] flex items-center gap-2">
+                  <i data-lucide="user" class="w-3.5 h-3.5 text-slate-400"></i>
+                  <span>controller@railway.gov.in</span>
+                </div>
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">CONTROLLER PASSWORD</label>
+                <div class="p-2 border border-slate-300 rounded bg-slate-50 text-slate-700 font-mono text-[11px] flex items-center gap-2">
+                  <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400"></i>
+                  <span>••••••••••••</span>
+                </div>
+              </div>
+              <div class="py-2 bg-[#EF5324] text-white text-center rounded font-bold uppercase text-[11px] shadow">
+                AUTHENTICATE & ENTER CORRIDOR
+              </div>
+              <p class="text-[9px] text-center text-slate-400 pt-1 border-t border-slate-100">
+                Secured with IR-RAMS SECURE GATEWAY . Unauthorized access is strictly prohibited.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 2: Dual Tactical & Strategic Capacity Horizons -->
+    <section id="feature-horizons" class="bg-white rounded-2xl border border-[#E2DCD5] p-6 sm:p-8 shadow-sm">
+      <div class="space-y-4 max-w-3xl mb-6">
+        <div class="flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-orange-100 text-[#EF5324] font-black text-xs flex items-center justify-center font-mono">02</span>
+          <span class="text-xs font-black uppercase tracking-wider text-[#004B87]">MULTI-ALTITUDE PLANNING</span>
+        </div>
+        <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">
+          7-Day Tactical (Weekly Micro-Slotting) vs 30-Day Strategic (Monthly Macro Rollup)
+        </h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Controllers can seamlessly pivot between <strong>micro-level weekly train path reservation</strong> (exact 15-minute intervals with speed cautions) and <strong>macro-level 30-day capacity load planning</strong> to clear rolling defect backlogs before seasonal foggy disruptions.
+        </p>
+      </div>
+
+      <!-- Interactive Dual Horizon Comparison Component -->
+      <div class="bg-[#FAF8F5] rounded-xl border border-[#DCD5C9] p-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[#E5DDCF] pb-4 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-700">Select Interactive Horizon Preview:</span>
+            <div class="bg-[#0A3B6F] p-1 rounded-lg flex items-center text-xs font-bold">
+              <button id="showTacticalTab" onclick="toggleHorizonDemo('tactical')" class="px-3.5 py-1.5 rounded-md bg-[#EF5324] text-white transition">
+                7-Day Tactical (Weekly)
+              </button>
+              <button id="showStrategicTab" onclick="toggleHorizonDemo('strategic')" class="px-3.5 py-1.5 rounded-md text-blue-200 hover:text-white transition">
+                30-Day Strategic (Monthly)
+              </button>
+            </div>
+          </div>
+          <div class="text-xs font-mono font-bold text-slate-600">
+            <span id="horizonMetrics">8.7h Net Closures • 10 Active Blocks • 99.14% Uptime</span>
+          </div>
+        </div>
+
+        <!-- Tactical View Mockup -->
+        <div id="tacticalPreview" class="space-y-3">
+          <div class="text-xs text-slate-600 font-medium">
+            Shows 168-hour day-by-day micro slots across UP and DN tracks with speed restrictions (e.g. 30 km/h caution):
+          </div>
+          <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white">
+            <table class="w-full text-left text-xs min-w-[650px]">
+              <thead class="bg-slate-100 text-slate-700 text-[11px] font-bold">
+                <tr>
+                  <th class="p-2.5 border-r border-slate-200 w-48">SECTION TOPOLOGY</th>
+                  <th class="p-2 border-r border-slate-200 text-center w-12 font-mono">LINE</th>
+                  <th class="p-2 border-r border-slate-200 text-center">SUN Sep 27</th>
+                  <th class="p-2 border-r border-slate-200 text-center">MON Sep 28</th>
+                  <th class="p-2 border-r border-slate-200 text-center">TUE Sep 29</th>
+                  <th class="p-2 border-r border-slate-200 text-center">WED Sep 30</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 text-[11px]">
+                <tr>
+                  <td rowspan="2" class="p-2.5 border-r border-slate-200 font-bold bg-slate-50/50">
+                    New Delhi - Tuglakabad (KM 0–17.5)
+                  </td>
+                  <td class="p-1 border-r text-center font-mono font-bold bg-slate-100">UP</td>
+                  <td class="p-1 border-r">
+                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#004B87] text-white font-bold text-[10px]">
+                      <span>⚡20m</span> ENG-W01 (06:00-08:15) <span class="bg-black/30 px-1 rounded font-mono">30k</span>
+                    </span>
+                  </td>
+                  <td class="p-1 border-r text-center text-slate-300">—</td>
+                  <td class="p-1 border-r text-center text-slate-300">—</td>
+                  <td class="p-1 border-r text-center text-slate-300">—</td>
+                </tr>
+                <tr>
+                  <td class="p-1 border-r text-center font-mono font-bold bg-slate-100">DN</td>
+                  <td class="p-1 border-r text-center text-slate-300">—</td>
+                  <td class="p-1 border-r text-center text-slate-300">—</td>
+                  <td class="p-1 border-r text-center text-slate-300">—</td>
+                  <td class="p-1 border-r">
+                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#004B87] text-white font-bold text-[10px]">
+                      <span>⚡20m</span> ENG-W02 (17:00-19:30) <span class="bg-black/30 px-1 rounded font-mono">30k</span>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Strategic View Mockup (Hidden by default) -->
+        <div id="strategicPreview" class="hidden space-y-4">
+          <div class="flex items-center justify-between text-xs text-slate-700 bg-blue-50/60 p-3 rounded-lg border border-blue-100">
+            <div>
+              <strong class="text-[#004B87]">30-Day Strategic Corridor Altitude:</strong> Macro section rollup with 240 Monthly Possession Hours and 94.2% defect backlog clearance.
+            </div>
+            <button onclick="openModal('modalStrategicDetail')" class="text-xs font-bold text-[#004B87] underline hover:text-blue-900">
+              Inspect Full 4-Week Load Deck →
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+            <div class="bg-white p-3.5 rounded-lg border-2 border-slate-800 shadow-sm space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="font-extrabold text-slate-900">Week 1 (Sep 27 - Oct 04)</span>
+                <span class="px-1.5 py-0.5 bg-rose-600 text-white text-[9px] font-bold rounded">83% LOAD</span>
+              </div>
+              <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-rose-600 w-[83%]"></div>
+              </div>
+              <div class="grid grid-cols-3 gap-1 text-[10px] font-mono text-center pt-1">
+                <div class="bg-blue-50 p-1 rounded font-bold text-blue-800">ENG 5.0h</div>
+                <div class="bg-amber-50 p-1 rounded font-bold text-amber-800">SNT 5.0h</div>
+                <div class="bg-purple-50 p-1 rounded font-bold text-purple-800">TRD 0.0h</div>
+              </div>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-slate-800">Week 2 (Oct 04 - Oct 11)</span>
+                <span class="px-1.5 py-0.5 bg-emerald-600 text-white text-[9px] font-bold rounded">31% LOAD</span>
+              </div>
+              <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 w-[31%]"></div>
+              </div>
+              <div class="grid grid-cols-3 gap-1 text-[10px] font-mono text-center pt-1">
+                <div class="bg-blue-50 p-1 rounded font-bold text-blue-800">ENG 0.0h</div>
+                <div class="bg-amber-50 p-1 rounded font-bold text-amber-800">SNT 3.8h</div>
+                <div class="bg-purple-50 p-1 rounded font-bold text-purple-800">TRD 0.0h</div>
+              </div>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-slate-800">Week 3 (Oct 11 - Oct 18)</span>
+                <span class="px-1.5 py-0.5 bg-emerald-600 text-white text-[9px] font-bold rounded">25% LOAD</span>
+              </div>
+              <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 w-[25%]"></div>
+              </div>
+              <div class="grid grid-cols-3 gap-1 text-[10px] font-mono text-center pt-1">
+                <div class="bg-blue-50 p-1 rounded font-bold text-blue-800">ENG 1.5h</div>
+                <div class="bg-amber-50 p-1 rounded font-bold text-amber-800">SNT 0.0h</div>
+                <div class="bg-purple-50 p-1 rounded font-bold text-purple-800">TRD 1.5h</div>
+              </div>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-slate-800">Week 4 (Oct 18 - Oct 25)</span>
+                <span class="px-1.5 py-0.5 bg-emerald-600 text-white text-[9px] font-bold rounded">17% LOAD</span>
+              </div>
+              <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 w-[17%]"></div>
+              </div>
+              <div class="grid grid-cols-3 gap-1 text-[10px] font-mono text-center pt-1">
+                <div class="bg-blue-50 p-1 rounded font-bold text-blue-800">ENG 2.0h</div>
+                <div class="bg-amber-50 p-1 rounded font-bold text-amber-800">SNT 0.0h</div>
+                <div class="bg-purple-50 p-1 rounded font-bold text-purple-800">TRD 0.0h</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 3: Inter-Departmental Shadowing & Electrical Isolation -->
+    <section id="feature-departments" class="bg-white rounded-2xl border border-[#E2DCD5] p-6 sm:p-8 shadow-sm">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-7 space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-purple-100 text-purple-800 font-black text-xs flex items-center justify-center font-mono">03</span>
+            <span class="text-xs font-black uppercase tracking-wider text-purple-700">MULTI-DISCIPLINARY CO-ALLOCATION</span>
+          </div>
+          <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">
+            Dynamic Departmental Shadowing (ENG + SNT + TRD) & ACTM 2.14 Verification
+          </h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Corridor possessions traditionally operate in isolation, compounding train disruption. The system bundles track works with mandatory <strong>shadowing windows</strong>:
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
+            <div class="p-3.5 rounded-xl border border-blue-200 bg-blue-50/70 space-y-1">
+              <div class="flex items-center gap-1.5 text-blue-900 font-black">
+                <i data-lucide="wrench" class="w-4 h-4"></i>
+                <span>ENG (Track)</span>
+              </div>
+              <p class="text-slate-600 text-[11px]">Turnout tamping, ballast cleaning machine (BCM), rail renewals & welding.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-amber-200 bg-amber-50/70 space-y-1">
+              <div class="flex items-center gap-1.5 text-amber-900 font-black">
+                <i data-lucide="radio" class="w-4 h-4"></i>
+                <span>SNT (Signals)</span>
+              </div>
+              <p class="text-slate-600 text-[11px]">Point machine calibration, track circuits, axle counter maintenance.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-purple-200 bg-purple-50/70 space-y-1">
+              <div class="flex items-center gap-1.5 text-purple-900 font-black">
+                <i data-lucide="zap" class="w-4 h-4"></i>
+                <span>TRD (Traction)</span>
+              </div>
+              <p class="text-slate-600 text-[11px]">25kV OHE catenary adjustment, bracket replacement & neutral section checks.</p>
+            </div>
+          </div>
+
+          <!-- ACTM 2.14 Rule Callout -->
+          <div class="p-3.5 rounded-xl bg-purple-50 border border-purple-200 text-xs flex items-start gap-3">
+            <i data-lucide="alert-circle" class="w-5 h-5 text-purple-700 flex-shrink-0 mt-0.5"></i>
+            <div>
+              <strong class="text-purple-900 font-bold block mb-0.5">ACTM Rule 2.14 Safety Buffer Verification:</strong>
+              <span class="text-purple-800">
+                Any civil engineering possession under energized catenary automatically requires a certified <strong>20-minute de-energization and earthing buffer</strong> before the civil gang enters the track space.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Shadowing Representation -->
+        <div class="lg:col-span-5 bg-[#FAF8F5] p-5 rounded-xl border border-[#DCD5C9] space-y-3">
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block font-mono">VISUAL BUNDLING TIMELINE</span>
+          
+          <div class="bg-white rounded-lg border border-slate-200 p-3.5 space-y-3 shadow-xs">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-extrabold text-slate-800">Joint Window (KM 1.2 UP)</span>
+              <span class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded text-[10px]">CO-LOCATED SHADOW</span>
+            </div>
+
+            <!-- Unified Track Window Bar -->
+            <div class="space-y-1.5">
+              <div class="h-6 rounded bg-gradient-to-r from-blue-700 via-amber-600 to-purple-700 text-white font-mono text-[10px] flex items-center justify-around px-2 font-bold shadow-xs">
+                <span>ENG 06:00–08:15</span>
+                <span>•</span>
+                <span>SNT SHADOW</span>
+                <span>•</span>
+                <span>⚡ 20m TRD BUFFER</span>
+              </div>
+              <div class="flex justify-between text-[10px] text-slate-400 font-mono">
+                <span>05:40 Earthing</span>
+                <span>06:00 Civil Entry</span>
+                <span>08:15 Clearance</span>
+                <span>08:35 Re-power</span>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-50 border border-slate-200 text-[11px] text-slate-600">
+              <strong class="text-slate-800">Optimization Result:</strong> Eliminates separate signal and traction blocks, saving <strong>2.5 hours of corridor line downtime</strong> per week.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 4: AI Risk Assessment & SHAP Explainability Engine -->
+    <section id="feature-shap" class="bg-white rounded-2xl border border-[#E2DCD5] p-6 sm:p-8 shadow-sm">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-7 space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-rose-100 text-rose-700 font-black text-xs flex items-center justify-center font-mono">04</span>
+            <span class="text-xs font-black uppercase tracking-wider text-rose-600">PREDICTIVE SAFETY ANALYTICS</span>
+          </div>
+          <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">
+            Dual FMEA/ML Risk Scoring with Transparent SHAP Drivers
+          </h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Rather than treating AI as an opaque black box, every scheduled block generates a composite risk index marrying standard railway <strong>FMEA (Failure Mode and Effects Analysis)</strong> with a gradient-boosted ML classifier. Every prediction produces granular SHAP (Shapley Additive exPlanations) values.
+          </p>
+
+          <div class="space-y-3 pt-2 text-xs">
+            <div class="p-3 bg-[#FAF8F5] rounded-xl border border-[#E5DDCF]">
+              <div class="font-bold text-slate-800 mb-1">Composite Risk Formulation:</div>
+              <p class="text-slate-600 font-mono text-[11px]">
+                Risk Score = α · FMEA_Score + (1 - α) · ML_Inference_Score
+              </p>
+              <p class="text-[10px] text-slate-500 mt-1">
+                Where FMEA accounts for structural track age & track classification, while ML computes dynamic factors like axle load tonnage and weather degradation.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inspector Card Mockup (Exact match to Prototype screenshot) -->
+        <div class="lg:col-span-5 bg-[#FAF8F5] rounded-xl border border-[#DCD5C9] p-5 shadow-sm space-y-4">
+          <div>
+            <span class="text-[10px] font-bold text-blue-800 uppercase tracking-widest block font-mono">BLOCK INSPECTOR TELEMETRY</span>
+            <h4 class="text-base font-extrabold text-[#004B87] leading-tight mt-1">
+              ENG-W01 | Turnout tamping & ballast packing (KM 1.2) [UP]
+            </h4>
+            <span class="text-xs text-slate-500 font-medium font-mono">NDLS-TKD • UP Line</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded bg-[#004B87] text-white font-mono text-[11px] font-bold">
+              ENG: KM1.2-UP
+            </span>
+            <span class="px-2.5 py-1 rounded bg-slate-200 text-slate-700 font-mono text-[11px] font-semibold">
+              SNT: KM1.2-UP
+            </span>
+          </div>
+
+          <!-- Risk Assessment Meter -->
+          <div class="border-l-4 border-rose-500 pl-3 py-1.5 bg-rose-50 rounded-r-lg">
+            <span class="text-[11px] font-bold text-slate-600 block">Risk assessment</span>
+            <div class="flex items-baseline gap-2 mt-0.5">
+              <span class="text-2xl font-black text-rose-600 font-mono">88.6 High</span>
+              <span class="text-[11px] text-slate-500 font-mono">FMEA: 88.5 | ML: 88.7</span>
+            </div>
+          </div>
+
+          <!-- Key Risk Drivers SHAP List -->
+          <div class="pt-1 space-y-2.5">
+            <span class="text-xs font-bold text-slate-800 uppercase tracking-wider block">Key Risk Drivers (SHAP)</span>
+            
+            <div class="space-y-2 text-xs">
+              <div class="flex items-start justify-between bg-white p-2 rounded border border-slate-200">
+                <div>
+                  <div class="font-bold text-slate-800 text-[11px]">defect severity code</div>
+                  <p class="text-[10px] text-slate-500">Defect Severity Code increases failure risk.</p>
+                </div>
+                <span class="text-rose-600 font-mono font-black">+13.65</span>
+              </div>
+
+              <div class="flex items-start justify-between bg-white p-2 rounded border border-slate-200">
+                <div>
+                  <div class="font-bold text-slate-800 text-[11px]">traffic density km day</div>
+                  <p class="text-[10px] text-slate-500">Traffic Density Km Day increases failure risk.</p>
+                </div>
+                <span class="text-rose-600 font-mono font-black">+6.73</span>
+              </div>
+
+              <div class="flex items-start justify-between bg-white p-2 rounded border border-slate-200">
+                <div>
+                  <div class="font-bold text-slate-800 text-[11px]">days overdue</div>
+                  <p class="text-[10px] text-slate-500">Days Overdue increases failure risk.</p>
+                </div>
+                <span class="text-rose-600 font-mono font-black">+3.02</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 5: Emergency Track Possession Injection -->
+    <section id="feature-emergency" class="bg-white rounded-2xl border border-[#E2DCD5] p-6 sm:p-8 shadow-sm">
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <div class="lg:w-1/2 space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-red-100 text-rose-700 font-black text-xs flex items-center justify-center font-mono">05</span>
+            <span class="text-xs font-black uppercase tracking-wider text-rose-600">DYNAMIC DISRUPTION INJECTION</span>
+          </div>
+          <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">
+            Deterministic Google OR-Tools Preemption & Emergency Rescheduling
+          </h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            In railway operations, unexpected emergencies—such as broken rails, OHE wire snaps, or track fractures—supersede all scheduled timetables. The system includes a dedicated <strong>Emergency Possession Injection Engine</strong> that instantly pre-empts lower-tier freight windows and recalculates non-overlapping slots in under 500ms using Google OR-Tools CP-SAT.
+          </p>
+
+          <div class="space-y-2.5 pt-1 text-xs">
+            <div class="p-2.5 rounded-lg bg-[#FAF8F5] border border-[#EAE3D8]">
+              <strong class="text-slate-800">Target Section Routing:</strong> Automatically sets speed cautions (e.g. 30 km/h) or total line blocks across UP, DN, or BOTH tracks.
+            </div>
+            <div class="p-2.5 rounded-lg bg-[#FAF8F5] border border-[#EAE3D8]">
+              <strong class="text-slate-800">Automated OHE Cut:</strong> Automatically triggers TRD 20-minute earthing procedures for the incident section.
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <button onclick="openModal('modalEmergencyDemo')" class="px-4 py-2 bg-[#B91C1C] hover:bg-rose-800 text-white text-xs font-bold rounded-lg shadow-sm flex items-center gap-2 transition uppercase">
+              <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
+              <span>Open Emergency Injection Modal Preview</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Prototype UI Preview Card -->
+        <div class="lg:w-1/2 w-full bg-[#FAF8F5] rounded-xl border border-[#DCD5C9] p-5 shadow-inner">
+          <div class="max-w-md mx-auto bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
+            <div class="bg-[#B91C1C] text-white p-3.5 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-300"></i>
+                <div class="text-xs font-black uppercase tracking-wide">EMERGENCY TRACK POSSESSION INJECTION</div>
+              </div>
+              <span class="text-[9px] bg-black/30 px-1.5 py-0.5 rounded font-mono">CP-SAT PREEMPTION</span>
+            </div>
+
+            <div class="p-4 space-y-2.5 text-xs text-slate-700">
+              <div>
+                <span class="text-[10px] font-bold text-slate-500 uppercase block mb-1">TARGET CORRIDOR SECTION</span>
+                <div class="p-2 bg-slate-50 rounded border border-slate-300 font-semibold text-slate-800">
+                  Palwal - Kosi Kalan (PWL-KSV)
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <span class="text-[10px] font-bold text-slate-500 uppercase block mb-1">KILOMETER CHAINAGE</span>
+                  <div class="p-2 bg-slate-50 rounded border border-slate-300 font-mono font-bold text-slate-800">
+                    84.2
+                  </div>
+                </div>
+                <div>
+                  <span class="text-[10px] font-bold text-slate-500 uppercase block mb-1">LINE RESTRICTION</span>
+                  <div class="p-2 bg-slate-50 rounded border border-slate-300 font-semibold text-slate-800">
+                    BOTH (Total Line Closure)
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <span class="text-[10px] font-bold text-slate-500 uppercase block mb-1">ACTIVE DURATION</span>
+                  <div class="p-2 bg-slate-50 rounded border border-slate-300 font-mono font-bold text-slate-800">
+                    90 Mins
+                  </div>
+                </div>
+                <div>
+                  <span class="text-[10px] font-bold text-slate-500 uppercase block mb-1">OHE CUT BUFFER</span>
+                  <div class="p-2 bg-slate-50 rounded border border-slate-300 font-semibold text-purple-800 flex items-center gap-1">
+                    <i data-lucide="check" class="w-3 h-3 text-purple-700"></i>
+                    <span>20m TRD Earthing</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-2 py-2 bg-[#B91C1C] text-white text-center rounded font-bold uppercase text-[11px] shadow">
+                EXECUTE PREEMPTION & DISPATCH
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE 6: Formula-Audited Live Derivations (Live Audit Modals) -->
+    <section id="feature-derivations" class="bg-white rounded-2xl border border-[#E2DCD5] p-6 sm:p-8 shadow-sm space-y-6">
+      <div class="space-y-3 max-w-3xl">
+        <div class="flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 font-black text-xs flex items-center justify-center font-mono">06</span>
+          <span class="text-xs font-black uppercase tracking-wider text-emerald-700">MATHEMATICAL RIGOR & EXPLAINABILITY</span>
+        </div>
+        <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">
+          Transparent Live Audit Derivations & Railway Finance Models
+        </h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Every KPI displayed on the controller screen is backed by an auditable mathematical derivation conforming to Indian Railways Commercial Manuals and G&SR specifications. Click any card below to launch the authentic derivation modal.
+        </p>
+      </div>
+
+      <!-- 4 Live Derivation Inspection Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Card 1: Cost Recovery & Demurrage Model -->
+        <div onclick="openModal('modalCostRecoveryLive')" class="bg-[#FAF8F5] p-5 rounded-xl border border-[#DCD5C9] card-hover-lift cursor-pointer space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded uppercase">COMMERCIAL RECOVERY</span>
+            <i data-lucide="calculator" class="w-4 h-4 text-emerald-600"></i>
+          </div>
+          <div class="text-xl font-extrabold text-emerald-700">₹8,41,500 / mo</div>
+          <p class="text-xs text-slate-600 leading-snug">
+            Base Demurrage + Crew Avoidance model computed over 42.5 hrs/mo savings on 58-wagon BOXN rakes.
+          </p>
+          <div class="text-[11px] font-bold text-[#004B87] flex items-center gap-1 pt-1">
+            <span>Inspect Derivation Formula</span>
+            <i data-lucide="arrow-right" class="w-3 h-3"></i>
+          </div>
+        </div>
+
+        <!-- Card 2: Corridor Uptime & TSR Friction Penalty -->
+        <div onclick="openModal('modalCorridorUptimeLive')" class="bg-[#FAF8F5] p-5 rounded-xl border border-[#DCD5C9] card-hover-lift cursor-pointer space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded uppercase">CAPACITY METRIC</span>
+            <i data-lucide="trending-up" class="w-4 h-4 text-amber-600"></i>
+          </div>
+          <div class="text-xl font-extrabold text-[#004B87]">99.14% Uptime</div>
+          <p class="text-xs text-slate-600 leading-snug">
+            Calculated across 1008 total section-hours with 60% single-line directional throughput preservation.
+          </p>
+          <div class="text-[11px] font-bold text-[#004B87] flex items-center gap-1 pt-1">
+            <span>Inspect Uptime Formula</span>
+            <i data-lucide="arrow-right" class="w-3 h-3"></i>
+          </div>
+        </div>
+
+        <!-- Card 3: G&SR 3.51 & ACTM 2.14 Spatial Compliance -->
+        <div onclick="openModal('modalConflictAuditLive')" class="bg-[#FAF8F5] p-5 rounded-xl border border-[#DCD5C9] card-hover-lift cursor-pointer space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded uppercase">SAFETY COMPLIANCE</span>
+            <i data-lucide="shield-check" class="w-4 h-4 text-blue-600"></i>
+          </div>
+          <div class="text-xl font-extrabold text-slate-900">0 Overlaps Locked</div>
+          <p class="text-xs text-slate-600 leading-snug">
+            Boundary Point lockout rules and simultaneous turnout occupancy protection verified across all 6 blocks.
+          </p>
+          <div class="text-[11px] font-bold text-[#004B87] flex items-center gap-1 pt-1">
+            <span>Inspect Safety Rules</span>
+            <i data-lucide="arrow-right" class="w-3 h-3"></i>
+          </div>
+        </div>
+
+        <!-- Card 4: Net Equivalent Closures -->
+        <div onclick="openModal('modalPossessionHoursLive')" class="bg-[#FAF8F5] p-5 rounded-xl border border-[#DCD5C9] card-hover-lift cursor-pointer space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded uppercase">CLOSURE AGGREGATION</span>
+            <i data-lucide="clock" class="w-4 h-4 text-purple-600"></i>
+          </div>
+          <div class="text-xl font-extrabold text-purple-900">8.7 Net Hours</div>
+          <p class="text-xs text-slate-600 leading-snug">
+            Union of merged intervals and single-line retention penalty factors (0.4 hours equivalent per hour).
+          </p>
+          <div class="text-[11px] font-bold text-[#004B87] flex items-center gap-1 pt-1">
+            <span>Inspect Retention Metrics</span>
+            <i data-lucide="arrow-right" class="w-3 h-3"></i>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FEATURE 7: 199.3 KM Delhi–Agra Corridor Topology Tracker -->
+    <section id="feature-topology" class="bg-white rounded-2xl border border-[#E2DCD5] p-6 sm:p-8 shadow-sm space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-blue-100 text-[#004B87] font-black text-xs flex items-center justify-center font-mono">07</span>
+            <span class="text-xs font-black uppercase tracking-wider text-[#004B87]">CORRIDOR GEOMETRY & TOPOLOGY</span>
+          </div>
+          <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">
+            NDLS → AGC Main Trunk Section Tracker (199.3 KM)
+          </h3>
+          <p class="text-sm text-slate-600">
+            6 critical saturated sections mapped with exact chainage, block counts, and line directional tracking.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 font-mono text-xs">
+          <span class="px-2.5 py-1 rounded bg-blue-100 text-blue-900 font-bold">Total: 199.3 KM</span>
+          <span class="px-2.5 py-1 rounded bg-amber-100 text-amber-900 font-bold">Max Speed: 160 km/h</span>
+        </div>
+      </div>
+
+      <!-- Linear Route Chainage Visualization -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <!-- Section 1 -->
+        <div class="p-4 rounded-xl border border-slate-200 bg-[#FAF8F5] relative space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="font-extrabold text-slate-900 text-sm">New Delhi - Tuglakabad</div>
+            <span class="px-2 py-0.5 rounded bg-blue-100 text-[#004B87] font-mono text-[10px] font-bold">2 Blocks</span>
+          </div>
+          <div class="text-xs font-mono text-slate-500">NDLS → TKD • KM 0.0 – 17.5</div>
+          <p class="text-[11px] text-slate-600">High passenger density, multi-line terminal chord with express priority.</p>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="p-4 rounded-xl border border-slate-200 bg-[#FAF8F5] relative space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="font-extrabold text-slate-900 text-sm">Tuglakabad - Faridabad</div>
+            <span class="px-2 py-0.5 rounded bg-blue-100 text-[#004B87] font-mono text-[10px] font-bold">1 Block</span>
+          </div>
+          <div class="text-xs font-mono text-slate-500">TKD → FDB • KM 17.5 – 37.8</div>
+          <p class="text-[11px] text-slate-600">Major freight yard convergence with heavy container rake movements.</p>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="p-4 rounded-xl border border-slate-200 bg-[#FAF8F5] relative space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="font-extrabold text-slate-900 text-sm">Faridabad - Palwal</div>
+            <span class="px-2 py-0.5 rounded bg-blue-100 text-[#004B87] font-mono text-[10px] font-bold">2 Blocks</span>
+          </div>
+          <div class="text-xs font-mono text-slate-500">FDB → PWL • KM 37.8 – 60.2</div>
+          <p class="text-[11px] text-slate-600">Quadruple track bottleneck transition to double automatic section.</p>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="p-4 rounded-xl border border-rose-200 bg-rose-50/40 relative space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="font-extrabold text-rose-900 text-sm">Palwal - Kosi Kalan</div>
+            <span class="px-2 py-0.5 rounded bg-rose-200 text-rose-800 font-mono text-[10px] font-bold">1 Block</span>
+          </div>
+          <div class="text-xs font-mono text-rose-700">PWL → KSV • KM 60.2 – 102.5</div>
+          <p class="text-[11px] text-slate-600">Site of the <strong>KM 84.2 Emergency Rail Fracture Preemption Engine</strong> test.</p>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="p-4 rounded-xl border border-slate-200 bg-[#FAF8F5] relative space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="font-extrabold text-slate-900 text-sm">Kosi Kalan - Mathura</div>
+            <span class="px-2 py-0.5 rounded bg-blue-100 text-[#004B87] font-mono text-[10px] font-bold">2 Blocks</span>
+          </div>
+          <div class="text-xs font-mono text-slate-500">KSV → MTJ • KM 102.5 – 149.8</div>
+          <p class="text-[11px] text-slate-600">Key junction junction connecting to West Central Railway (WCR) freight routes.</p>
+        </div>
+
+        <!-- Section 6 -->
+        <div class="p-4 rounded-xl border border-slate-200 bg-[#FAF8F5] relative space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="font-extrabold text-slate-900 text-sm">Mathura - Agra Cantt</div>
+            <span class="px-2 py-0.5 rounded bg-blue-100 text-[#004B87] font-mono text-[10px] font-bold">2 Blocks</span>
+          </div>
+          <div class="text-xs font-mono text-slate-500">MTJ → AGC • KM 149.8 – 199.3</div>
+          <p class="text-[11px] text-slate-600">160 km/h semi-high speed track shared by Vande Bharat & Gatimaan Express.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: Cost Recovery & Demurrage Model (Exact match to screenshot 102701) -->
+  <div id="modalCostRecoveryLive" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150">
+      
+      <div class="bg-[#004B87] text-white -m-6 p-4 rounded-t-2xl flex items-center justify-between mb-6">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+            <i data-lucide="calculator" class="w-4 h-4 text-amber-300"></i>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-amber-300 tracking-wider block font-mono">LIVE AUDIT TRAIL & DERIVATION</span>
+            <h4 class="text-sm font-extrabold">Cost Recovery & Demurrage Model</h4>
+          </div>
+        </div>
+        <button onclick="closeModal('modalCostRecoveryLive')" class="p-1 hover:bg-white/10 rounded-md text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs text-slate-700">
+        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] text-emerald-800 font-bold uppercase tracking-wider block">CALCULATED FINANCIAL SAVINGS</span>
+            <span class="text-2xl font-black text-emerald-700">₹8,41,500 / month</span>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] text-slate-500 font-bold uppercase block">BASE DEMURRAGE SAVED</span>
+            <span class="text-sm font-mono font-extrabold text-slate-800">₹7,39,500</span>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="font-extrabold text-slate-900 mb-1.5">Dynamic Calculation Breakdown:</h5>
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 font-mono text-[11px] leading-relaxed text-slate-700">
+            Base demurrage: 42.5 hours/month × 2 rakes/hour × 58 wagons/rake × ₹150/wagon-hour = ₹739,500.00; crew detention avoidance: 42.5 hours/month × 2 rakes/hour × ₹1,200/rake-hour = ₹102,000.00; total = ₹841,500.00 per month.
+            <div class="mt-2 text-emerald-700 font-bold">
+              • Crew Detention Avoidance: ₹1,02,000
+            </div>
+          </div>
+        </div>
+
+        <p class="text-[10px] text-slate-500 italic">
+          Ministry of Railways Compendium Rate: ₹150/wagon-hour base demurrage (58-wagon BOXN rake).
+        </p>
+
+        <div class="pt-2 flex justify-end">
+          <button onclick="closeModal('modalCostRecoveryLive')" class="px-5 py-2 bg-[#004B87] text-white font-bold rounded-lg text-xs hover:bg-[#003B6D] transition">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Corridor Uptime & Speed Restriction Drag (Exact match to screenshot 102715) -->
+  <div id="modalCorridorUptimeLive" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150">
+      
+      <div class="bg-[#004B87] text-white -m-6 p-4 rounded-t-2xl flex items-center justify-between mb-6">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+            <i data-lucide="calculator" class="w-4 h-4 text-amber-300"></i>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-amber-300 tracking-wider block font-mono">LIVE AUDIT TRAIL & DERIVATION</span>
+            <h4 class="text-sm font-extrabold">Corridor Uptime & Speed Restriction Drag</h4>
+          </div>
+        </div>
+        <button onclick="closeModal('modalCorridorUptimeLive')" class="p-1 hover:bg-white/10 rounded-md text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs text-slate-700">
+        <div class="p-4 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] text-orange-900 font-bold uppercase tracking-wider block">CORRIDOR UPTIME</span>
+            <span class="text-2xl font-black text-orange-600">99.14%</span>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] text-slate-500 font-bold uppercase block">TSR FRICTION PENALTY</span>
+            <span class="text-sm font-mono font-extrabold text-orange-700">+0.00 Impact Hours</span>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="font-extrabold text-slate-900 mb-1.5">Step-by-Step Solver Derivation:</h5>
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 font-mono text-[11px] space-y-1 text-slate-700">
+            <p>• Corridor Capacity: 6 sections × 168h = 1008.0 section-hours</p>
+            <p>• Directional single-line capacity retention: 60.0% preserved during single-line blocks</p>
+            <p>• Net Equivalent Closure: 8.70 hours (union of merged intervals)</p>
+            <p>• TSR Drag Penalty (0.15 factor): 0.00 impact hours</p>
+            <p class="font-bold text-slate-900 pt-1 border-t border-slate-200">
+              • Calculated Uptime = [1 - (8.70 + 0.00) / 1008.0] × 100 = 99.14%
+            </p>
+          </div>
+        </div>
+
+        <p class="text-[10px] text-slate-500 italic">
+          Dynamically calculated from corridor capacity (1008 total section-hours).
+        </p>
+
+        <div class="pt-2 flex justify-end">
+          <button onclick="closeModal('modalCorridorUptimeLive')" class="px-5 py-2 bg-[#004B87] text-white font-bold rounded-lg text-xs hover:bg-[#003B6D] transition">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: G&SR 3.51 & ACTM 2.14 Compliance (Exact match to screenshot 110418) -->
+  <div id="modalConflictAuditLive" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150">
+      
+      <div class="bg-[#004B87] text-white -m-6 p-4 rounded-t-2xl flex items-center justify-between mb-6">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+            <i data-lucide="shield-check" class="w-4 h-4 text-amber-300"></i>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-amber-300 tracking-wider block font-mono">LIVE AUDIT TRAIL & DERIVATION</span>
+            <h4 class="text-sm font-extrabold">G&SR 3.51 & ACTM 2.14 Spatial Conflict Audit</h4>
+          </div>
+        </div>
+        <button onclick="closeModal('modalConflictAuditLive')" class="p-1 hover:bg-white/10 rounded-md text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs text-slate-700">
+        <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] text-rose-900 font-bold uppercase tracking-wider block">PENDING CONFLICTS</span>
+            <span class="text-2xl font-black text-rose-600">0</span>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] text-slate-500 font-bold uppercase block">G&SR COMPLIANCE ENGINE</span>
+            <span class="text-sm font-mono font-extrabold text-emerald-700">Online</span>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="font-extrabold text-slate-900 mb-1.5">Rules Enforced:</h5>
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-[11px] space-y-2 text-slate-700">
+            <p>
+              <strong class="text-slate-900">• G&SR 3.51 (Boundary Lockout):</strong> Simultaneous track occupancy on boundary points and turnouts strictly locked.
+            </p>
+            <p>
+              <strong class="text-slate-900">• ACTM 2.14 (Traction Isolation):</strong> Track work under 25kV OHE requires 20-minute de-energization buffer verification.
+            </p>
+          </div>
+        </div>
+
+        <p class="text-[10px] text-slate-500 italic">
+          Updates dynamically as conflicts are bundled, rescheduled, or injected.
+        </p>
+
+        <div class="pt-2 flex justify-end">
+          <button onclick="closeModal('modalConflictAuditLive')" class="px-5 py-2 bg-[#004B87] text-white font-bold rounded-lg text-xs hover:bg-[#003B6D] transition">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Possession Hours & Capacity Retention (Exact match to screenshot 110405) -->
+  <div id="modalPossessionHoursLive" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150">
+      
+      <div class="bg-[#004B87] text-white -m-6 p-4 rounded-t-2xl flex items-center justify-between mb-6">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+            <i data-lucide="clock" class="w-4 h-4 text-amber-300"></i>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-amber-300 tracking-wider block font-mono">LIVE AUDIT TRAIL & DERIVATION</span>
+            <h4 class="text-sm font-extrabold">Possession Hours & Capacity Retention</h4>
+          </div>
+        </div>
+        <button onclick="closeModal('modalPossessionHoursLive')" class="p-1 hover:bg-white/10 rounded-md text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs text-slate-700">
+        <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] text-blue-900 font-bold uppercase tracking-wider block">NET EQUIVALENT CLOSURES</span>
+            <span class="text-2xl font-black text-[#004B87]">8.7 Hours</span>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] text-slate-500 font-bold uppercase block">ACTIVE SCHEDULED BLOCKS</span>
+            <span class="text-sm font-mono font-extrabold text-slate-800">10 Blocks</span>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="font-extrabold text-slate-900 mb-1.5">Active Corridor Parameters:</h5>
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 font-mono text-[11px] space-y-1 text-slate-700">
+            <p>• Total Monitoring Horizon: 168 hours</p>
+            <p>• Single Line Retention: 60% throughput preserved during single track blocks</p>
+            <p>• Equivalent Penalty per Hour: 0.4 hours equivalent closure</p>
+          </div>
+        </div>
+
+        <p class="text-[10px] text-slate-500 italic">
+          Data dynamically aggregated from active IR-RAMS block records.
+        </p>
+
+        <div class="pt-2 flex justify-end">
+          <button onclick="closeModal('modalPossessionHoursLive')" class="px-5 py-2 bg-[#004B87] text-white font-bold rounded-lg text-xs hover:bg-[#003B6D] transition">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Emergency Preemption Injection Preview -->
+  <div id="modalEmergencyDemo" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150">
+      
+      <div class="bg-[#B91C1C] text-white -m-6 p-4 rounded-t-2xl flex items-center justify-between mb-6">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-300"></i>
+          <div>
+            <h4 class="text-sm font-black tracking-wide uppercase">EMERGENCY TRACK POSSESSION INJECTION</h4>
+            <p class="text-[10px] text-rose-100 font-mono">Deterministic Google OR Tools Preemption & Rescheduling Engine</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modalEmergencyDemo')" class="p-1 hover:bg-white/10 rounded-md text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs text-slate-700">
+        <div>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider text-[11px] mb-1">Target Corridor Section</label>
+          <div class="p-2.5 bg-slate-100 rounded-lg border border-slate-300 font-bold text-slate-800">
+            Palwal - Kosi Kalan (PWL-KSV)
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider text-[11px] mb-1">Kilometer Chainage</label>
+            <div class="p-2 bg-slate-100 rounded-lg border border-slate-300 font-mono font-bold text-slate-800">
+              84.2
+            </div>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider text-[11px] mb-1">Line Restriction</label>
+            <div class="p-2 bg-slate-100 rounded-lg border border-slate-300 font-bold text-slate-800">
+              BOTH (Total Line Closure)
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider text-[11px] mb-1">Active Duration</label>
+            <div class="p-2 bg-slate-100 rounded-lg border border-slate-300 font-mono font-bold text-slate-800">
+              90 Mins
+            </div>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider text-[11px] mb-1">OHE Power Cut Buffer</label>
+            <div class="p-2 bg-purple-50 rounded-lg border border-purple-200 font-bold text-purple-800">
+              ✓ 20m TRD Earthing Buffer
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-[11px]">
+          <strong>Simulated Dispatch Impact:</strong> Preempts 2 upcoming freight paths (TKD Yard) and reroutes traffic onto Loop 2 with 30 km/h TSR warning.
+        </div>
+
+        <div class="pt-2 flex justify-end gap-3">
+          <button onclick="closeModal('modalEmergencyDemo')" class="px-5 py-2 bg-[#004B87] text-white font-bold rounded-lg text-xs hover:bg-[#003B6D] transition">
+            Close Preview
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Full 30-Day Strategic Detail Deck -->
+  <div id="modalStrategicDetail" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150">
+      
+      <div class="bg-[#004B87] text-white -m-6 p-4 rounded-t-2xl flex items-center justify-between mb-6">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="bar-chart-3" class="w-4 h-4 text-amber-300"></i>
+          <div>
+            <h4 class="text-sm font-extrabold uppercase">30-DAY STRATEGIC CORRIDOR ALTITUDE ARCHITECTURE</h4>
+            <span class="text-[10px] text-blue-100 font-mono">Macro Capacity Planning & Defect Backlog Rollup</span>
+          </div>
+        </div>
+        <button onclick="closeModal('modalStrategicDetail')" class="p-1 hover:bg-white/10 rounded-md text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs text-slate-700">
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+          <div class="font-bold text-slate-900 text-sm">Monthly Planning Target: 240 Possession Hours</div>
+          <p class="text-slate-600">
+            Enables divisional headquarters to schedule preventive mechanized maintenance, high-output ballast tampers (CSM/Duomatic), and catenary wire renewals 4 weeks in advance.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px]">Key Architectural Capabilities:</div>
+          <ul class="space-y-2 list-disc list-inside text-slate-600 text-[11px]">
+            <li><strong>Section Filter Chips:</strong> Drill down by specific section (NDLS-TKD, TKD-FDB, FDB-PWL, PWL-KSV, KSV-MTJ, MTJ-AGC) or inspect the entire 199.3 KM corridor concurrently.</li>
+            <li><strong>Rolling Defect Backlog Clearance:</strong> Measures progress against overdue safety defects discovered by USFD (Ultrasonic Flaw Detection) cars.</li>
+            <li><strong>Inter-Zonal Handshake:</strong> Bridges Northern Railway (Delhi Division) with North Central Railway (Agra Division) at Mathura junction.</li>
+          </ul>
+        </div>
+
+        <div class="pt-2 flex justify-end">
+          <button onclick="closeModal('modalStrategicDetail')" class="px-5 py-2 bg-[#004B87] text-white font-bold rounded-lg text-xs hover:bg-[#003B6D] transition">
+            Close Deck
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-white border-t border-[#E2DCD5] py-8 px-4 sm:px-8 mt-auto">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12  flex items-center justify-center p-1 text-[#004B87] ">
+          <img src="assets/logo.svg" alt="IR-RAMS Logo" class="w-full h-full object-contain">
+        </div>
+        <div>
+          <span class="font-bold text-slate-800 block text-xs">Indian Railways Resource Allocation & Maintenance System</span>
+          <span class="text-[10px]">Delhi–Agra Saturated Corridor • Northern Railway (NR)</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-6 font-mono text-[11px]">
+        <span>Created by <a href="https://www.linkedin.com/in/mayobhav-pathak" target="_blank" class="text-blue-500 hover:underline">Mayobhav Pathak</a></span>
+        <span>•</span>
+        <span>Team - VentureX</span>
+        <span>•</span>
+        <span>SIH 2026</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    // Initialize icons
+    lucide.createIcons();
+
+    // Modal Control Helpers
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+      }
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }
+    }
+
+    // Toggle between Tactical and Strategic preview on Feature 2
+    function toggleHorizonDemo(mode) {
+      const tactical = document.getElementById('tacticalPreview');
+      const strategic = document.getElementById('strategicPreview');
+      const btnTactical = document.getElementById('showTacticalTab');
+      const btnStrategic = document.getElementById('showStrategicTab');
+      const metrics = document.getElementById('horizonMetrics');
+
+      if (mode === 'tactical') {
+        tactical.classList.remove('hidden');
+        strategic.classList.add('hidden');
+        btnTactical.className = 'px-3.5 py-1.5 rounded-md bg-[#EF5324] text-white transition';
+        btnStrategic.className = 'px-3.5 py-1.5 rounded-md text-blue-200 hover:text-white transition';
+        metrics.textContent = '8.7h Net Closures • 10 Active Blocks • 99.14% Uptime';
+      } else {
+        tactical.classList.add('hidden');
+        strategic.classList.remove('hidden');
+        btnStrategic.className = 'px-3.5 py-1.5 rounded-md bg-[#EF5324] text-white transition';
+        btnTactical.className = 'px-3.5 py-1.5 rounded-md text-blue-200 hover:text-white transition';
+        metrics.textContent = '29.0h Monthly Target • 94.2% Defect Clearance • 99.33% Uptime';
+      }
+      lucide.createIcons();
+    }
+
+    // Close modals on Escape key press
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const openModals = document.querySelectorAll('[id^="modal"]:not(.hidden)');
+        openModals.forEach((modal) => {
+          modal.classList.add('hidden');
+        });
+        document.body.classList.remove('overflow-hidden');
+      }
+    });
+  </script>
+</body>
+</html>
