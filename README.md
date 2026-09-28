@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./assets/logo.svg" alt="Project Logo" />
+  <img src="./assets/logo_full.svg" alt="Project Logo" />
   
   # Maintenance Possession Controller
   
